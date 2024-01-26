@@ -243,7 +243,6 @@ if ($result->num_rows > 0) {
         }
 
 
-        return true
 
         フォームを送信
         fetch('thread.php', {
