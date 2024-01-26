@@ -243,24 +243,25 @@ if ($result->num_rows > 0) {
         }
 
 
+        return true
 
         // フォームを送信
-        fetch('thread.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(res => {
-                console.log(res);
-                console.log("1");
-                window.location.reload();
-                console.log("2"); // この行が実行されるはず
-            })
-            .catch(error => {
-                console.log("er");
-                console.log(error);
-                window.location.reload();
-            });
+        // fetch('thread.php', {
+        //     method: 'POST',
+        //     body: formData
+        // })
+        //     .then(response => response.json())
+        //     .then(res => {
+        //         console.log(res);
+        //         console.log("1");
+        //         window.location.reload();
+        //         console.log("2"); // この行が実行されるはず
+        //     })
+        //     .catch(error => {
+        //         console.log("er");
+        //         console.log(error);
+        //         window.location.reload();
+        //     });
     });
 
 </script>
