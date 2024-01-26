@@ -1,3 +1,8 @@
+<?php 
+require_once(dirname(__FILE__) ."/secret.php");
+?>
+
+
 <style>
     body {
             background-color: #fffacd;
