@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $image_name = $timestamp_usec . "_" . $_FILES['image_post']['name'];
 
         // アップロードされたファイルを指定の場所に移動
-        move_uploaded_file($image_tmp_name, 'uploads/' . $image_name);
+        move_uploaded_file($image_tmp_name, '../uploads/' . $image_name);
 
         // これで、$image_nameを必要に応じてデータベースクエリで使用したり保存できます。
     }
@@ -148,10 +148,10 @@ if ($result->num_rows > 0) {
     if ($result->num_rows > 0) {
         // データがある場合
         while ($row = $result->fetch_assoc()) {
-            echo "" . $row['message_id'] . " " . "<span class='username'>" . h($row['user_name']) . "</span>" . " " . $row['write_timestamp'] . "<br>";
+            echo "" . $row['message_id'] . " " . "<span class='username'>" . h($row['user_name']) . "</span>" . " : " . $row['write_timestamp'] . "<br>";
             echo "" . nl2br(h($row['message'])) . "<br>";
             if ($row['image_path'] !== null) {
-                $imagePath = 'uploads/' . $row['image_path'];
+                $imagePath = '../uploads/' . $row['image_path'];
                 echo "<img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'><br>";
             }
         }
@@ -244,7 +244,7 @@ if ($result->num_rows > 0) {
 
 
 
-        フォームを送信
+        // フォームを送信
         fetch('thread.php', {
             method: 'POST',
             body: formData
