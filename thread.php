@@ -160,7 +160,6 @@ if ($result->num_rows > 0) {
 
 
 
-
     // 結果を表示
     if ($result->num_rows > 0) {
         // データがある場合
