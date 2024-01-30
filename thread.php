@@ -159,6 +159,7 @@ if ($result->num_rows > 0) {
     $result = $conn->query($sql);
 
 
+    
 
     // 結果を表示
     if ($result->num_rows > 0) {
