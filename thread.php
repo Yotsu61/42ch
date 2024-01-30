@@ -99,6 +99,7 @@ function h($str)
 } 
 
 
+
 // メッセージのハイパーリンク化
 function makeClickableLinks($message) {
     // URLを検出し、<a>タグで囲んで返す
