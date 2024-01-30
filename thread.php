@@ -166,7 +166,7 @@ if ($result->num_rows > 0) {
         // データがある場合
         while ($row = $result->fetch_assoc()) {
             echo "" . $row['message_id'] . " " . "<span class='username'>" . h($row['user_name']) . "</span>" . " : " . $row['write_timestamp'] . "<br>";
-            echo "" . nl2br(h($row['message'])) . "<br>";
+            echo "" . nl2br(makeClickableLinks(h($row['message']))) . "<br>";
             if ($row['image_path'] !== null) {
                 $imagePath = '../uploads/' . $row['image_path'];
                 echo "<img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'><br>";
