@@ -93,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
+
 function h($str)
 {
     return htmlspecialchars($str, ENT_QUOTES, "");
