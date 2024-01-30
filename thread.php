@@ -244,37 +244,6 @@ if ($result->num_rows > 0) {
         }
 
 
-            // コメントフォームから送信されたメッセージを取得
-    const message = formData.get('message_post');
-
-    // 正規表現を使用して、メッセージ内のURLを検出
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const urls = message.match(urlRegex);
-
-    // URLが検出された場合は、ハイパーリンクに置換
-    if (urls) {
-        for (const url of urls) {
-            const linkedMessage = message.replace(url, `<a href="${url}" target="_blank">${url}</a>`);
-            // ハイパーリンク化されたメッセージを表示
-            return linkedMessage;
-            console.log(linkedMessage);
-        }
-    } else {
-        // URLが見つからない場合は、通常のメッセージを表示
-        return message;
-        console.log(message);
-    }
-
-
-        // const message = form.elements['message_post'].value;
-        // if (message.startsWith('http')) {
-        //     const link = document.createElement('a');
-        //     link.href = message;
-        //     link.textContent = message;
-
-        //     // 既存のメッセージを置き換える
-        //     form.elements['message_post'].replaceWith(link);
-        // }
 
 
 
