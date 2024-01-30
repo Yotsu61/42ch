@@ -242,6 +242,16 @@ if ($result->num_rows > 0) {
             return;
         }
 
+        const message = form.elements['message_post'].value;
+        if (message.startsWith('http')) {
+            const link = document.createElement('a');
+            link.href = message;
+            link.textContent = message;
+
+            // 既存のメッセージを置き換える
+            form.elements['message_post'].replaceWith(link);
+        }
+
 
 
         // フォームを送信
