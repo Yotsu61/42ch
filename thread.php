@@ -226,6 +226,7 @@ if ($result->num_rows > 0) {
 
 
 
+
 <!-- スレッド投稿フォームからPHPへPOSTするJavascript処理 -->
 
 <script>
