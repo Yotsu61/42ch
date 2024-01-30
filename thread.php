@@ -101,13 +101,13 @@ function h($str)
 
 
 // メッセージのハイパーリンク化
-function makeClickableLinks($message) {
+function makeClickableLinks($str) {
     // URLを検出し、<a>タグで囲んで返す
     return preg_replace_callback('/https?:\/\/[^\s<]+/',
         function($matches) {
             return '<a href="' . $matches[0] . '" target="_blank">' . $matches[0] . '</a>';
         },
-        $message
+        $str
     );
 }
 ?>
