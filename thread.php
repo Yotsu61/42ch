@@ -245,6 +245,17 @@ if ($result->num_rows > 0) {
 
 
 
+        // メッセージ内のURLを自動的にハイパーリンク化する処理を追加
+        const message = formData.get('message_post');
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const urls = message.match(urlRegex);
+        if (urls) {
+            for (const url of urls) {
+                const linkedMessage = message.replace(url, `<a href="${url}" target="_blank">${url}</a>`);
+                formData.set('message_post', linkedMessage);
+            }
+        }
+
 
 
         // フォームを送信
