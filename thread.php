@@ -96,7 +96,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function h($str)
 {
     return htmlspecialchars($str, ENT_QUOTES, "");
-} ?>
+} 
+
+
+// メッセージのハイパーリンク化
+function makeClickableLinks($message) {
+    // URLを検出し、<a>タグで囲んで返す
+    return preg_replace_callback('/https?:\/\/[^\s<]+/',
+        function($matches) {
+            return '<a href="' . $matches[0] . '" target="_blank">' . $matches[0] . '</a>';
+        },
+        $message
+    );
+}
+?>
+
+
 
 
 
@@ -245,16 +260,16 @@ if ($result->num_rows > 0) {
 
 
 
-        // メッセージ内のURLを自動的にハイパーリンク化する処理を追加
-        const message = formData.get('message_post');
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        const urls = message.match(urlRegex);
-        if (urls) {
-            for (const url of urls) {
-                const linkedMessage = message.replace(url, `<a href="${url}" target="_blank">${url}</a>`);
-                formData.set('message_post', linkedMessage);
-            }
-        }
+        // // メッセージ内のURLを自動的にハイパーリンク化する処理を追加
+        // const message = formData.get('message_post');
+        // const urlRegex = /(https?:\/\/[^\s]+)/g;
+        // const urls = message.match(urlRegex);
+        // if (urls) {
+        //     for (const url of urls) {
+        //         const linkedMessage = message.replace(url, `<a href="${url}" target="_blank">${url}</a>`);
+        //         formData.set('message_post', linkedMessage);
+        //     }
+        // }
 
 
 
