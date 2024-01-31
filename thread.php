@@ -1,6 +1,5 @@
 <?php
 require_once(dirname(__FILE__) ."/secret.php");
-date_default_timezone_set('Asia/Tokyo');
 
 
 
