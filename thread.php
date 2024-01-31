@@ -1,8 +1,6 @@
 <?php
 require_once(dirname(__FILE__) ."/secret.php");
 
-
-
 error_reporting(E_ALL);
 
 $max_message_id = 0;
