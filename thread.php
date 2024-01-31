@@ -224,7 +224,7 @@ if ($result->num_rows > 0) {
 
     フォーム
     <form id="messPost" enctype="multipart/form-data" method="POST">
-        <textarea name="user_name_post" placeholder="ユーザ名を入力して下さい"></textarea><br>
+        <textarea name="user_name_post" value="<?= $_POST['user_name_post']?>" placeholder="ユーザ名を入力して下さい"></textarea><br>
         <textarea name="message_post" placeholder="メッセージを入力して下さい" style="width : 500px; margin: 10px 0 10px 0;"
             rows="10"></textarea>
         <input type="file" name="image_post" accept="image/*"> <!-- 画像アップロードのために追加 -->
