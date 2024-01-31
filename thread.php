@@ -232,6 +232,7 @@ if ($result->num_rows > 0) {
         <input type="submit" value="投稿">
     </form>
 
+    
 
 </body>
 
