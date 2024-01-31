@@ -102,7 +102,7 @@ function h($str)
 
 <h5>Opps! XSSの脆弱性は対策されました</h5>
 <!-- <p><a href="../42ch_v1.1 Unsecured/42ch.php">旧42ch v1.1 XSS未対策Ver<a></p> -->
-<br>
+
 <h5>↓ズミが作成したChatです↓</h5>
 <p><a href="https://yotsunoserver.yotsu.cc/ajtest/ajax.php">ズミchat<a></p>
 
