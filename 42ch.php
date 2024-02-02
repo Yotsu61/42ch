@@ -1,27 +1,3 @@
-<?php 
-require_once(dirname(__FILE__) ."/secret.php");
-
-// User Agent を取得
-$userAgent = $_SERVER['HTTP_USER_AGENT'];
-
-// スマホかどうか判定
-if (preg_match('/iPhone|Android/', $userAgent)) {
-  // スマホ用の処理
-  echo '<link rel="stylesheet" href="mobile-style.css">';
-} else {
-  // PC用の処理
-  echo '<link rel="stylesheet" href="desktop-style.css">';
-}
-?>
-
-
-
-<style>
-
-</style>
-
-
-
 <?php
 
 // データベース接続情報
@@ -88,7 +64,7 @@ function h($str)
 
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
-
+<link rel="stylesheet" href="style.css">
 
 <head>
     <meta charset="utf-8">
