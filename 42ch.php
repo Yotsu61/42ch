@@ -77,6 +77,13 @@ function h($str)
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
 <!-- <link rel="stylesheet" href="mobile-style.css"> -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>42ch</title>
+
+</head>
 
 
 <script>
@@ -90,10 +97,6 @@ if (/iPhone|Android/.test(userAgent)) {
 
 
 
-<head>
-    <meta charset="utf-8">
-    <title>42ch</title>
-</head>
 
 <h2>42ch</h2>
 
