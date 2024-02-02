@@ -1,39 +1,23 @@
 <?php 
 require_once(dirname(__FILE__) ."/secret.php");
 
-
 // User Agent を取得
 $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
 // スマホかどうか判定
 if (preg_match('/iPhone|Android/', $userAgent)) {
   // スマホ用の処理
-  echo '<link rel="stylesheet" href="style.css">';
+  echo '<link rel="stylesheet" href="mobile-style.css">';
 } else {
   // PC用の処理
+  echo '<link rel="stylesheet" href="desktop-style.css">';
 }
-
 ?>
 
 
+
 <style>
-    body {
-            background-color: #fffacd;
-            color: black;
-        }
 
-        .thread-box {
-            background-color: #c0c0c0;
-            border: 1px solid #ccc;
-            margin: 10px;
-            padding: 10px;
-
-            border: 1px solid black;
-        }
-
-        a {
-            color: black;
-        }
 </style>
 
 
