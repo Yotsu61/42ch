@@ -1,3 +1,15 @@
+<?php 
+require_once(dirname(__FILE__) ."/secret.php");
+?>
+
+
+
+<style>
+
+</style>
+
+
+
 <?php
 
 // データベース接続情報
@@ -64,7 +76,7 @@ function h($str)
 
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="mobile-style.css">
 
 <head>
     <meta charset="utf-8">
