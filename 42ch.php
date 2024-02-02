@@ -150,7 +150,7 @@ $conn->close();
 
 
 <body>
-<h3>スレッド一覧</h3>
+<!-- <h3>スレッド一覧</h3> -->
     <form id="messPost">
         <textarea name="thread_title_post" placeholder="スレッドタイトルを入力して下さい"></textarea>
 
