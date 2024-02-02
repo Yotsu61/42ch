@@ -1,5 +1,17 @@
 <?php 
 require_once(dirname(__FILE__) ."/secret.php");
+
+
+// User Agent を取得
+$userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+// スマホかどうか判定
+if (preg_match('/iPhone|Android/', $userAgent)) {
+  // スマホ用の処理
+} else {
+  // PC用の処理
+}
+
 ?>
 
 
