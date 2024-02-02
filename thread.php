@@ -187,6 +187,15 @@ if ($result->num_rows > 0) {
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
 
+<script>
+const userAgent = navigator.userAgent;
+if (/iPhone|Android/.test(userAgent)) {
+    document.write('<link rel="stylesheet" href="mobile_style.css">');
+} else {
+    document.write('<link rel="stylesheet" href="desktop_style.css">');
+}
+</script>
+
 <head>
     <meta charset="utf-8">
     <title>メッセージ作成フォーム</title>
@@ -195,26 +204,7 @@ if ($result->num_rows > 0) {
             background-color: #f0e68c;
         }
 
-        .message-box {
-            background-color: #c0c0c0;
-            border: 1px solid #ccc;
-            margin: 10px;
-            padding: 10px;
 
-            border: 1px solid black;
-        }
-
-        .username {
-            color: green;
-        }
-
-        .separator {
-            color: black;
-        }
-
-        .timestamp {
-            color: black;
-        }
     </style>
 </head>
 

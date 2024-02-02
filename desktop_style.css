@@ -3,6 +3,8 @@ body {
     color: black;
 }
 
+
+/* 42ch.php */
 .thread-box {
     background-color: #c0c0c0;
     border: 1px solid #ccc;
@@ -13,5 +15,29 @@ body {
 }
 
 a {
+    color: black;
+}
+
+
+
+/* thread.php */
+.message-box {
+    background-color: #c0c0c0;
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+
+    border: 1px solid black;
+}
+
+.username {
+    color: green;
+}
+
+.separator {
+    color: black;
+}
+
+.timestamp {
     color: black;
 }
