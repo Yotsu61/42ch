@@ -80,12 +80,12 @@ function h($str)
 
 
 <script>
-  const userAgent = navigator.userAgent;
-  if (/iPhone|Android/.test(userAgent)) {
+const userAgent = navigator.userAgent;
+if (/iPhone|Android/.test(userAgent)) {
     document.write('<link rel="stylesheet" href="mobile_style.css">');
-  } else {
+} else {
     document.write('<link rel="stylesheet" href="desktop_style.css">');
-  }
+}
 </script>
 
 
