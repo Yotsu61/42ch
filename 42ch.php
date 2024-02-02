@@ -92,6 +92,7 @@ function h($str)
 
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
+<link rel="stylesheet" href="style.css">
 
 <head>
     <meta charset="utf-8">
