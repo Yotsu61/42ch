@@ -76,7 +76,19 @@ function h($str)
 
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
-<link rel="stylesheet" href="mobile-style.css">
+<!-- <link rel="stylesheet" href="mobile-style.css"> -->
+
+
+<script>
+  const userAgent = navigator.userAgent;
+  if (/iPhone|Android/.test(userAgent)) {
+    document.write('<link rel="stylesheet" href="mobile_style.css">');
+  } else {
+    document.write('<link rel="stylesheet" href="desktop_style.css">');
+  }
+</script>
+
+
 
 <head>
     <meta charset="utf-8">
