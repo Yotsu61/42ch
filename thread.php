@@ -198,7 +198,9 @@ if (/iPhone|Android/.test(userAgent)) {
 
 <head>
     <meta charset="utf-8">
-    <title>メッセージ作成フォーム</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>42ch :<?=$title?></title>
     <style>
         body {
             background-color: #f0e68c;
