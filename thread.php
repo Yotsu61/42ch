@@ -6,7 +6,7 @@ require_once(dirname(__FILE__) ."/secret.php");
 error_reporting(E_ALL);
 
 $max_message_id = 0;
-
+$thread_title = "";
 
 // $thread_idg = 0;
 
@@ -134,6 +134,8 @@ if ($result->num_rows > 0) {
         echo "<h2>" . $row['thread_title'] . "</h2><br>";
     }
 }
+
+$thread_title = $row['thread_title'];
 ?>
 
 
