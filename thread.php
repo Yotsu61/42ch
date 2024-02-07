@@ -200,7 +200,7 @@ if (/iPhone|Android/.test(userAgent)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>42ch :<?=$row['thread_title']?></title>
+    <title>42ch :<?=$thread_title?></title>
     <style>
         body {
             background-color: #f0e68c;
