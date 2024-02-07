@@ -131,11 +131,12 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // データがある場合
     while ($row = $result->fetch_assoc()) {
+        $thread_title = $row['thread_title'];
         echo "<h2>" . $row['thread_title'] . "</h2><br>";
     }
 }
 
-$thread_title = $row['thread_title'];
+
 ?>
 
 
