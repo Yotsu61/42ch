@@ -16,7 +16,7 @@ $today = date('Ymd');
 
 
 // アクセス数の取得
-$count = 0;
+$count;
 $fp = fopen($logfile, 'r');
 while ($line = fgets($fp)) {
   $data = explode(',', $line);
