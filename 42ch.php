@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) ."/secret.php");
 
 <?php
 // アクセスログファイル
-$logfile = '../accesss-counter/access.log';
+$logfile = '../access-counter/access.log';
 
 // IPアドレス取得
 $ip = $_SERVER['REMOTE_ADDR'];
