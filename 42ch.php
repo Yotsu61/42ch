@@ -3,39 +3,41 @@ require_once(dirname(__FILE__) ."/secret.php");
 ?>
 
 
+
 <?php
-// アクセスログファイル
-$logfile = '../access-counter/access.log';
 
 // IPアドレス取得
-$ip = $_SERVER['REMOTE_ADDR'];
+$ip_address = $_SERVER['REMOTE_ADDR'];
 
-// 今日の日付
-$today = date('Ymd');
+// ログファイルパス
+$log_file = '../access-counter/access.log';
 
+// アクセスカウンター初期値
+$counter = 1;
 
-
-// アクセス数の取得
-$count;
-$fp = fopen($logfile, 'r');
-while ($line = fgets($fp)) {
-  $data = explode(',', $line);
-  if ($data[0] === $ip && $data[1] === $today) {
-    $count = $data[2];
-    break;
-  }
+// ログファイルが存在する場合は、IPアドレスごとのアクセス数を取得
+if (file_exists($log_file)) {
+    // ログファイルを読み込み、IPアドレスごとのアクセス数を取得
+    $log_content = file_get_contents($log_file);
+    $access_data = json_decode($log_content, true);
+    
+    // IPアドレスが既に存在する場合は、カウンターを更新
+    if (isset($access_data[$ip_address])) {
+        $counter = $access_data[$ip_address] + 1;
+    }
 }
-fclose($fp);
 
-// アクセス数の更新
-$count++;
-$fp = fopen($logfile, 'a');
-fwrite($fp, "$ip,$today,$count\n");
-fclose($fp);
+// IPアドレスごとのアクセス数を更新
+$access_data[$ip_address] = $counter;
 
-// アクセス数の表示
-echo "アクセス数: $count";
+// ログファイルに書き込み
+file_put_contents($log_file, json_encode($access_data));
+
+// カウンターの値を表示
+echo "あなたは $counter 回目のアクセスです。";
+
 ?>
+
 
 
 
