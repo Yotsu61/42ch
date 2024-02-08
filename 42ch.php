@@ -3,6 +3,41 @@ require_once(dirname(__FILE__) ."/secret.php");
 ?>
 
 
+<?php
+// アクセスログファイル
+$logfile = '../accesss-counter/access.log';
+
+// IPアドレス取得
+$ip = $_SERVER['REMOTE_ADDR'];
+
+// 今日の日付
+$today = date('Ymd');
+
+
+
+// アクセス数の取得
+$count = 0;
+$fp = fopen($logfile, 'r');
+while ($line = fgets($fp)) {
+  $data = explode(',', $line);
+  if ($data[0] === $ip && $data[1] === $today) {
+    $count = $data[2];
+    break;
+  }
+}
+fclose($fp);
+
+// アクセス数の更新
+$count++;
+$fp = fopen($logfile, 'a');
+fwrite($fp, "$ip,$today,$count\n");
+fclose($fp);
+
+// アクセス数の表示
+echo "アクセス数: $count";
+?>
+
+
 
 <style>
 
