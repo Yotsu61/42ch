@@ -9,37 +9,40 @@ $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
 
 // 接続確認
 if ($conn->connect_error) {
-  die("データベース接続エラー: " . $conn->connect_error);
+    die("データベース接続エラー: " . $conn->connect_error);
 }
 
 // フォーム送信時処理
-if (isset($_POST['user_name_post']) && isset($_POST['password_post'])) {
+if (isset($_POST['user_name_post']) && isset($_POST['password_post']) && isset($_POST['password_confirm_post'])) {
   $username = $_POST['user_name_post'];
   $password = $_POST['password_post'];
+  $passwordConfirm = $_POST['password_confirm_post'];
 
-  // ユーザー情報取得
-  $sql = "SELECT user_id, password FROM users WHERE user_name = ?";
+  // ユーザー名重複チェック
+  $sql = "SELECT user_id FROM users WHERE user_name = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $username);
   $stmt->execute();
   $result = $stmt->get_result();
 
-  if ($result->num_rows === 1) {
-    $user_data = $result->fetch_assoc();
-    // パスワード照合
-    if (password_verify($password, $user_data['password'])) {
-      // ログイン成功
-      session_start();
-      $_SESSION['user_id'] = $user_data['user_id'];
-      header("Location: 42ch.php");
-      exit;
-    } else {
-      // パスワード不一致
-      echo "パスワードが間違っています。";
-    }
+  if ($result->num_rows > 0) {
+    // ユーザー名重複
+    echo "エラー: ユーザー名が既に存在します。";
+  } else if ($password !== $passwordConfirm) {
+    // パスワード不一致
+    echo "エラー: パスワードが一致しません。";
   } else {
-    // ユーザーが存在しない
-    echo "ユーザー名が存在しません。";
+    // パスワードハッシュ化
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+    // ユーザー登録
+    $sql = "INSERT INTO users (user_name, password, clearance_level) VALUES (?, ?, 0)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $username, $hashedPassword);
+    $stmt->execute();
+
+    // 登録成功
+    echo "ユーザー登録が完了しました。";
   }
 }
 
@@ -48,35 +51,34 @@ $conn->close();
 
 function h($str)
 {
-  if ($str === null || $str === "") {
-    return "";
-  }
-  return htmlspecialchars($str, ENT_QUOTES,"");
+    return htmlspecialchars($str, ENT_QUOTES,"");
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel=”icon” href=“favicon.ico”>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=”icon” href=“favicon.ico”>
 
-<title>42ch ログイン</title>
+    <title>42ch サインイン</title>
 
 </head>
 
 <body>
 
+    サインイン
+    <form id="messPost" enctype="multipart/form-data" method="POST">
+        <textarea name="user_name_post" value="<?= h($_POST['user_name_post'])?>" placeholder="ユーザ名を入力して下さい"></textarea><br>
+        <textarea name="password_post" placeholder="パスワードを入力して下さい" style="width : 500px; margin: 10px 0 10px 0;"
+            rows="10"></textarea><br>
+          <textarea name="password_confirm_post" placeholder="パスワードを再入力して下さい" style="width : 500px; margin: 10px 0 10px 0;"
+            rows="10"></textarea><br>
+        <input type="submit" value="サインイン">
+    </form>
 
-<form id="messPost" enctype="multipart/form-data" method="POST">
-<textarea name="user_name_post" <?php if (isset($_POST['user_name_post']) && $_POST['user_name_post'] !== "") { ?>value="<?= h($_POST['user_name_post'])?>"<?php } ?> placeholder="ユーザ名を入力して下さい"></textarea><br>
-<textarea name="password_post" placeholder="パスワードを入力して下さい"></textarea>
-  
-<input type="submit" value="ログイン">
-</form>
-
-  
+    
 
 </body>
 </html>
