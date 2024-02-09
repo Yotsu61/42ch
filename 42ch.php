@@ -1,5 +1,17 @@
 <?php 
 require_once(dirname(__FILE__) ."/secret.php");
+
+session_start();
+
+// ログインしていない場合はログイン画面へリダイレクト
+if (isset($_SESSION['user_id'])) {
+//   header("Location: index.php");
+//   exit;
+$user_id = $_SESSION['user_id'];
+// $thread_id = $_GET['thread_id'];
+
+echo "ユーザID:",$_SESSION['user_id'];
+}
 ?>
 
 
@@ -82,7 +94,7 @@ function h($str)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel=”icon” href=“favicon.ico”>
 
-    <title>42ch</title>
+    <title>42ch デバッグ用</title>
 
 </head>
 
@@ -99,7 +111,7 @@ if (/iPhone|Android/.test(userAgent)) {
 
 
 
-<h2>42ch</h2>
+<h2>42ch デバッグ用</h2>
 
 <h5>Opps! XSSの脆弱性は対策されました</h5>
 <!-- <p><a href="../42ch_v1.1 Unsecured/42ch.php">旧42ch v1.1 XSS未対策Ver<a></p> -->
@@ -161,6 +173,14 @@ $conn->close();
         <input type="submit" value="投稿">
     </form>
 
+
+    <button onclick="location.href='./login.php'">ログイン</button>
+    <button onclick="location.href='./sign-in.php'">サインイン</button>
+
+
+
+
+
 </body>
 
 </html>
@@ -185,6 +205,8 @@ $conn->close();
             alert('スレッドタイトルを入力してください。');
             return;
         }
+
+        
 
         // フォームを送信
         fetch('42ch.php', {
