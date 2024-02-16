@@ -70,12 +70,20 @@ function h($str)
 
     サインイン
     <form id="messPost" enctype="multipart/form-data" method="POST">
+<<<<<<< HEAD
         <textarea name="user_name_post" value="" placeholder="ユーザ名を入力して下さい" style="width : 210px; height: 25px; margin: 10px 0 10px 0;"
             rows="1"></textarea><br>
         <textarea name="password_post" placeholder="パスワードを入力して下さい" style="width : 250px; height: 25px; margin: 10px 0 10px 0;"
             rows="1"></textarea><br>
           <textarea name="password_confirm_post" placeholder="パスワードを再入力して下さい" style="width : 250px; height: 25px; margin: 1px 0 10px 0;"
             rows="1"></textarea><br>
+=======
+        <textarea name="user_name_post" value="<?= h($_POST['user_name_post'])?>" placeholder="ユーザ名を入力して下さい"></textarea><br>
+        <textarea name="password_post" placeholder="パスワードを入力して下さい" style="width : 500px; margin: 10px 0 10px 0;"
+            rows="10"></textarea><br>
+          <textarea name="password_confirm_post" placeholder="パスワードを再入力して下さい" style="width : 500px; margin: 10px 0 10px 0;"
+            rows="10"></textarea><br>
+>>>>>>> 78311bb54cceb1614aa3a50813d82b1f19e64b02
         <input type="submit" value="サインイン">
     </form>
 

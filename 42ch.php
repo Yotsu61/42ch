@@ -3,6 +3,7 @@ require_once(dirname(__FILE__) ."/secret.php");
 
 session_start();
 
+<<<<<<< HEAD
 $mobile = false;
 
 // ログインしていない場合はログイン画面へリダイレクト
@@ -29,6 +30,17 @@ if ($result->num_rows > 0) {
 }
 }
 echo "ユーザー名:",$user_name;
+=======
+// ログインしていない場合はログイン画面へリダイレクト
+if (isset($_SESSION['user_id'])) {
+//   header("Location: index.php");
+//   exit;
+$user_id = $_SESSION['user_id'];
+// $thread_id = $_GET['thread_id'];
+
+echo "ユーザID:",$_SESSION['user_id'];
+}
+>>>>>>> 78311bb54cceb1614aa3a50813d82b1f19e64b02
 ?>
 
 
@@ -111,7 +123,11 @@ function h($str)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel=”icon” href=“favicon.ico”>
 
+<<<<<<< HEAD
     <title>42ch</title>
+=======
+    <title>42ch デバッグ用</title>
+>>>>>>> 78311bb54cceb1614aa3a50813d82b1f19e64b02
 
 </head>
 
@@ -120,7 +136,10 @@ function h($str)
 const userAgent = navigator.userAgent;
 if (/iPhone|Android/.test(userAgent)) {
     document.write('<link rel="stylesheet" href="mobile_style.css">');
+<<<<<<< HEAD
     $mobile = true;
+=======
+>>>>>>> 78311bb54cceb1614aa3a50813d82b1f19e64b02
 } else {
     document.write('<link rel="stylesheet" href="desktop_style.css">');
 }
@@ -129,7 +148,11 @@ if (/iPhone|Android/.test(userAgent)) {
 
 
 
+<<<<<<< HEAD
 <h2>42ch</h2>
+=======
+<h2>42ch デバッグ用</h2>
+>>>>>>> 78311bb54cceb1614aa3a50813d82b1f19e64b02
 
 <h5>Opps! XSSの脆弱性は対策されました</h5>
 <!-- <p><a href="../42ch_v1.1 Unsecured/42ch.php">旧42ch v1.1 XSS未対策Ver<a></p> -->

@@ -1,10 +1,20 @@
 <?php
 require_once(dirname(__FILE__) ."/secret.php");
 
+<<<<<<< HEAD
 error_reporting(E_ALL);
 
 $user_name;
 
+=======
+
+
+error_reporting(E_ALL);
+
+
+$user_name;
+
+>>>>>>> 78311bb54cceb1614aa3a50813d82b1f19e64b02
 session_start();
 
 // ログインしていない場合はログイン画面へリダイレクト
@@ -14,6 +24,13 @@ if (isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 // $thread_id = $_GET['thread_id'];
 
+<<<<<<< HEAD
+=======
+echo "ユーザID:",$_SESSION['user_id'];
+echo "<br>";
+echo "ID:",$user_id;
+
+>>>>>>> 78311bb54cceb1614aa3a50813d82b1f19e64b02
 $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
     // 接続確認
     if ($conn->connect_error) {

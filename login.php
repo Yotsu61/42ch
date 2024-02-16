@@ -70,9 +70,15 @@ function h($str)
 
 
 <form id="messPost" enctype="multipart/form-data" method="POST">
+<<<<<<< HEAD
 <textarea name="user_name_post" <?php if (isset($_POST['user_name_post']) && $_POST['user_name_post'] !== "") { ?>value="<?= h($_POST['user_name_post'])?>"<?php } ?> placeholder="ユーザ名を入力して下さい" style="width : 210px; height: 25px; margin: 10px 0 10px 0;"></textarea><br>
 <textarea name="password_post" placeholder="パスワードを入力して下さい" style="width : 250px; height: 25px; margin: 10px 0 10px 0;"></textarea>
 <br> 
+=======
+<textarea name="user_name_post" <?php if (isset($_POST['user_name_post']) && $_POST['user_name_post'] !== "") { ?>value="<?= h($_POST['user_name_post'])?>"<?php } ?> placeholder="ユーザ名を入力して下さい"></textarea><br>
+<textarea name="password_post" placeholder="パスワードを入力して下さい"></textarea>
+  
+>>>>>>> 78311bb54cceb1614aa3a50813d82b1f19e64b02
 <input type="submit" value="ログイン">
 </form>
 
