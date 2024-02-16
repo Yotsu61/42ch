@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fffacd;
+    color: black;
+    margin: 0;
+    padding: 0;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+/* 42ch.php */
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.thread-box {
+    background-color: #c0c0c0;
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    left: 10px;
+    margin: 0 auto;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+h2, h3, h5 {
+
+}
+
+form {
+    margin-bottom: 20px;
+    left: 10px;
+    margin: 0 auto;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    left: 10px;
+    margin: 0 auto;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    left: 10px;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 600px) {
+    .container {
+        width: 60%;
+    }
+}
+
+
+/* thread.php */
+.message-box {
+    background-color: #c0c0c0;
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    left: 10px;
+    margin: 0 auto;
+}
+
+.username {
+    color: green;
+}
+
+.separator {
+    color: black;
+}
+
+.timestamp {
+    color: black;
+}

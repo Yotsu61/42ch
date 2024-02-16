@@ -1,26 +1,40 @@
 <?php 
 require_once(dirname(__FILE__) ."/secret.php");
+
+session_start();
+
+$mobile = false;
+
+// ログインしていない場合はログイン画面へリダイレクト
+if (isset($_SESSION['user_id'])) {
+
+$user_id = $_SESSION['user_id'];
+
+
+
+$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
+    // 接続確認
+    if ($conn->connect_error) {
+        die("データベース接続エラー: " . $conn->connect_error);
+    }
+$sql = "SELECT * FROM users WHERE user_id = $user_id";
+$result = $conn->query($sql);
+// 結果を表示
+if ($result->num_rows > 0) {
+    // データがある場合
+    while ($row = $result->fetch_assoc()) {
+        $user_name = $row['user_name'];
+        // echo "<br>ユーザ:" . $row['user_name'] . "<br>";
+    }
+}
+}
+echo "ユーザー名:",$user_name;
 ?>
 
 
+
 <style>
-    body {
-            background-color: #fffacd;
-            color: black;
-        }
 
-        .thread-box {
-            background-color: #c0c0c0;
-            border: 1px solid #ccc;
-            margin: 10px;
-            padding: 10px;
-
-            border: 1px solid black;
-        }
-
-        a {
-            color: black;
-        }
 </style>
 
 
@@ -89,19 +103,38 @@ function h($str)
 
 
 
-
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
-
+<!-- <link rel="stylesheet" href="mobile-style.css"> -->
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=”icon” href=“favicon.ico”>
+
     <title>42ch</title>
+
 </head>
 
-<h2>42chan</h2>
+
+<script>
+const userAgent = navigator.userAgent;
+if (/iPhone|Android/.test(userAgent)) {
+    document.write('<link rel="stylesheet" href="mobile_style.css">');
+    $mobile = true;
+} else {
+    document.write('<link rel="stylesheet" href="desktop_style.css">');
+}
+</script>
+
+
+
+
+<h2>42ch</h2>
 
 <h5>Opps! XSSの脆弱性は対策されました</h5>
-<p><a href="../42ch_v1.1 Unsecured/42ch.php">旧42ch v1.1 XSS未対策Ver<a></p>
+<!-- <p><a href="../42ch_v1.1 Unsecured/42ch.php">旧42ch v1.1 XSS未対策Ver<a></p> -->
+
+<a href="https://yotsunoserver.yotsu.cc/ajtest/ajax.php">ズミchat<a></p>
 
 
 <h3>スレッド一覧</h3>
@@ -131,6 +164,10 @@ if ($result->num_rows > 0) {
         // echo "スレッド: " . $row["title"]. " " . $row["id"]. "<br>";
 
         echo '<a href="thread.php?thread_id=' . h($row['thread_id']) . '">' . h($row['thread_title']) . '</a><br>';
+        if($mobile ===  true){
+            echo '<br>';
+        }
+        
     }
 } else {
     // データがない場合
@@ -151,12 +188,20 @@ $conn->close();
 
 
 <body>
-<h3>スレッド一覧</h3>
+<!-- <h3>スレッド一覧</h3> -->
     <form id="messPost">
-        <textarea name="thread_title_post" placeholder="スレッドタイトルを入力して下さい"></textarea>
-
+        <textarea name="thread_title_post" placeholder="スレッドタイトルを入力して下さい" style="width : 250px; height: 25px; margin: 10px 0 10px 0;"></textarea>
+        <br>
         <input type="submit" value="投稿">
     </form>
+
+
+    <button onclick="location.href='./login.php'">ログイン</button>
+    <button onclick="location.href='./sign-in.php'">サインイン</button>
+
+
+
+
 
 </body>
 
@@ -182,6 +227,8 @@ $conn->close();
             alert('スレッドタイトルを入力してください。');
             return;
         }
+
+        
 
         // フォームを送信
         fetch('42ch.php', {
