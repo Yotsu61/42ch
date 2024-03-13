@@ -1,21 +1,31 @@
 body {
     background-color: #fffacd;
-    color: black;
+    /* color: black; */
 }
 
 
 /* 42ch.php */
 .thread-box {
     background-color: #c0c0c0;
-    border: 1px solid #ccc;
+    border: 1px solid #db6618;
     margin: 10px;
     padding: 10px;
 
     border: 1px solid black;
+    
 }
 
 a {
     color: black;
+}
+.thread_info {
+    font-size: 14px;
+    color:rgb(33, 136, 7);
+    margin-bottom: 6px;
+}
+
+.threads-list{
+    /* display:flex; */
 }
 
 
@@ -28,6 +38,9 @@ a {
     padding: 10px;
 
     border: 1px solid black;
+}
+.message{
+    margin-left: 12px;
 }
 
 .username {

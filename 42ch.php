@@ -1,34 +1,47 @@
-<?php 
-require_once(dirname(__FILE__) ."/secret.php");
+<?php
+// エラーを出力する
+ini_set('display_errors', "On");
+
+require_once(dirname(__FILE__) . "/secret.php");
+
+
+
+// セッションIDがCookieに保存されている場合は取得して設定
+if (isset($_COOKIE[session_name()])) {
+    session_id($_COOKIE[session_name()]);
+}
 
 session_start();
 
 $mobile = false;
+$user_name = "ログインしていません";
 
-// ログインしていない場合はログイン画面へリダイレクト
+
+
 if (isset($_SESSION['user_id'])) {
 
-$user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 
 
 
-$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
+    $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
     // 接続確認
     if ($conn->connect_error) {
         die("データベース接続エラー: " . $conn->connect_error);
     }
-$sql = "SELECT * FROM users WHERE user_id = $user_id";
-$result = $conn->query($sql);
-// 結果を表示
-if ($result->num_rows > 0) {
-    // データがある場合
-    while ($row = $result->fetch_assoc()) {
-        $user_name = $row['user_name'];
-        // echo "<br>ユーザ:" . $row['user_name'] . "<br>";
+    $sql = "SELECT * FROM users WHERE user_id = $user_id";
+    $result = $conn->query($sql);
+    // 結果を表示
+    if ($result->num_rows > 0) {
+        // データがある場合
+        while ($row = $result->fetch_assoc()) {
+            $user_name = $row['user_name'];
+            // echo "<br>ユーザ:" . $row['user_name'] . "<br>";
+        }
     }
 }
-}
-echo "ユーザー名:",$user_name;
+echo "ユーザー名:", $user_name;
+echo $_SERVER['REMOTE_ADDR'];
 ?>
 
 
@@ -77,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     # connect mysql PDO
-    $dsn = 'mysql:dbname='.DB_DBNAME.';host='.DB_SERVERNAME;
+    $dsn = 'mysql:dbname=' . DB_DBNAME . ';host=' . DB_SERVERNAME;
 
     $pdo = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
     $sql = $pdo->prepare("INSERT into threads (thread_title, thread_id) values (:thread_title, :thread_id)");
@@ -97,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 function h($str)
 {
-    return htmlspecialchars($str, ENT_QUOTES,"");
+    return htmlspecialchars($str, ENT_QUOTES, "");
 }
 ?>
 
@@ -106,6 +119,7 @@ function h($str)
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
 <!-- <link rel="stylesheet" href="mobile-style.css"> -->
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,13 +131,13 @@ function h($str)
 
 
 <script>
-const userAgent = navigator.userAgent;
-if (/iPhone|Android/.test(userAgent)) {
-    document.write('<link rel="stylesheet" href="mobile_style.css">');
-    $mobile = true;
-} else {
-    document.write('<link rel="stylesheet" href="desktop_style.css">');
-}
+    const userAgent = navigator.userAgent;
+    if (/iPhone|Android/.test(userAgent)) {
+        document.write('<link rel="stylesheet" href="mobile_style.css">');
+        $mobile = true;
+    } else {
+        document.write('<link rel="stylesheet" href="desktop_style.css">');
+    }
 </script>
 
 
@@ -137,73 +151,82 @@ if (/iPhone|Android/.test(userAgent)) {
 <a href="https://yotsunoserver.yotsu.cc/ajtest/ajax.php">ズミchat<a></p>
 
 
-<h3>スレッド一覧</h3>
+        <h3>スレッド一覧</h3>
 
-<div class="thread-box">
-<?php
+        <div class="thread-box">
+            <?php
 
-ini_set("display_errors", "On");
-error_reporting(E_ALL);
+            ini_set("display_errors", "On");
+            error_reporting(E_ALL);
 
-// データベースに接続
-$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
+            // データベースに接続
+            $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
 
-// 接続確認
-if ($conn->connect_error) {
-    die("データベース接続エラー: " . $conn->connect_error);
-}
+            // 接続確認
+            if ($conn->connect_error) {
+                die("データベース接続エラー: " . $conn->connect_error);
+            }
 
-// SELECTクエリを実行
-$sql = "SELECT thread_title,thread_id from threads";
-$result = $conn->query($sql);
+            // SELECTクエリを実行
+            $sql = "SELECT t.thread_title, t.thread_id, 
+            m.message_id as count_message, m.write_timestamp as last_message_timestamp
+            FROM threads t
+            LEFT JOIN messages m ON t.thread_id = m.thread_id
+            WHERE m.message_id = (SELECT COUNT(message_id) FROM messages WHERE thread_id = t.thread_id)
+            GROUP BY t.thread_id";
+            $result = $conn->query($sql);
 
-// 結果を表示
-if ($result->num_rows > 0) {
-    // データがある場合
-    while ($row = $result->fetch_assoc()) {
-        // echo "スレッド: " . $row["title"]. " " . $row["id"]. "<br>";
-
-        echo '<a href="thread.php?thread_id=' . h($row['thread_id']) . '">' . h($row['thread_title']) . '</a><br>';
-        if($mobile ===  true){
-            echo '<br>';
-        }
-        
-    }
-} else {
-    // データがない場合
-    echo "データがありません";
-}
-
-// データベース接続を閉じる
-$conn->close();
-?>
-</div>
+            // 結果を表示
+            if ($result->num_rows > 0) {
+                // データがある場合
+                while ($row = $result->fetch_assoc()) {
+                    // echo "スレッド: " . $row["title"]. " " . $row["id"]. "<br>";
 
 
+                    echo '<div class="threads-list"><a href="thread.php?thread_id=' . h($row['thread_id']) . '">' . h($row['thread_title']) . '</a>';
+                    echo '<div class="thread_info">レス数:' . $row['count_message'] . ' 更新: ' . $row['last_message_timestamp'] . '</div></div>';
+                    if ($mobile === true) {
+                        echo '<br>';
+                    }
 
+                }
+            } else {
+                // データがない場合
+                echo "データがありません";
+            }
 
-
-
-
-
-
-<body>
-<!-- <h3>スレッド一覧</h3> -->
-    <form id="messPost">
-        <textarea name="thread_title_post" placeholder="スレッドタイトルを入力して下さい" style="width : 250px; height: 25px; margin: 10px 0 10px 0;"></textarea>
-        <br>
-        <input type="submit" value="投稿">
-    </form>
-
-
-    <button onclick="location.href='./login.php'">ログイン</button>
-    <button onclick="location.href='./sign-in.php'">サインイン</button>
+            // データベース接続を閉じる
+            $conn->close();
+            ?>
+        </div>
 
 
 
 
 
-</body>
+
+
+
+
+        <body>
+            <!-- <h3>スレッド一覧</h3> -->
+            <form id="messPost">
+                <textarea name="thread_title_post" placeholder="スレッドタイトルを入力して下さい"
+                    style="width : 250px; height: 25px; margin: 10px 0 10px 0;"></textarea>
+                <br>
+                <input type="submit" value="投稿">
+            </form>
+
+
+            <button onclick="location.href='./login.php'">ログイン</button>
+            <button onclick="location.href='./logout.php'">ログアウト</button>
+            <button onclick="location.href='./sign-in.php'">サインイン</button>
+
+
+
+
+
+        </body>
 
 </html>
 
@@ -228,7 +251,7 @@ $conn->close();
             return;
         }
 
-        
+
 
         // フォームを送信
         fetch('42ch.php', {
