@@ -1,26 +1,36 @@
 <?php
 // エラーを出力する
 ini_set('display_errors', "On");
+ini_set('session.gc_maxlifetime',"1814400");
 
 require_once(dirname(__FILE__) . "/secret.php");
 
-
+$user_name = "ログインしていません";
 
 // セッションIDがCookieに保存されている場合は取得して設定
-if (isset($_COOKIE[session_name()])) {
-    session_id($_COOKIE[session_name()]);
+if (isset($_COOKIE["42ch_Cookie"])) {
+    session_id($_COOKIE["42ch_Cookie"]);
 }
 
 session_start();
 
 $mobile = false;
-$user_name = "ログインしていません";
+
+$login_button = '<button onclick="location.href=\'./login.php\'">ログイン</button>';
+$logout_button = '';
+$sign_in_button = '<button onclick="location.href=\'./sign-in.php\'">サインイン</button>';
+
+
 
 
 
 if (isset($_SESSION['user_id'])) {
 
     $user_id = $_SESSION['user_id'];
+
+    $login_button = "";
+    $sign_in_button = "";
+    $logout_button = '<button onclick="location.href=\'./logout.php\'">ログアウト</button>';
 
 
 
@@ -93,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dsn = 'mysql:dbname=' . DB_DBNAME . ';host=' . DB_SERVERNAME;
 
     $pdo = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
-    $sql = $pdo->prepare("INSERT into threads (thread_title, thread_id) values (:thread_title, :thread_id)");
+    $sql = $pdo->prepare("INSERT into threads (thread_title, thread_id, `timestamp`) values (:thread_title, :thread_id, now())");
 
     //# bindParamで:nameなどを変数$nameに設定、PARAM_でデータ型を指定
     $sql->bindParam(':thread_title', $thread_title, PDO::PARAM_STR);
@@ -174,6 +184,7 @@ function h($str)
             FROM threads t
             LEFT JOIN messages m ON t.thread_id = m.thread_id
             GROUP BY t.thread_id";
+
             $result = $conn->query($sql);
 
             // 結果を表示
@@ -211,18 +222,21 @@ function h($str)
         <body>
             <!-- <h3>スレッド一覧</h3> -->
             <form id="messPost">
-                <textarea name="thread_title_post" placeholder="スレッドタイトルを入力して下さい"
-                    style="width : 250px; height: 25px; margin: 10px 0 10px 0;"></textarea>
+            <input type="text" name="thread_title_post" placeholder="スレッドタイトルを入力して下さい" style="width: 250px; height: 25px; margin: 10px 0 10px 0;">
                 <br>
                 <input type="submit" value="投稿">
             </form>
 
 
-            <button onclick="location.href='./login.php'">ログイン</button>
+            <!-- <button onclick="location.href='./login.php'">ログイン</button>
             <button onclick="location.href='./logout.php'">ログアウト</button>
-            <button onclick="location.href='./sign-in.php'">サインイン</button>
+            <button onclick="location.href='./sign-in.php'">サインイン</button> -->
 
-
+            <?php
+            echo $login_button;
+            echo $sign_in_button;
+            echo $logout_button;
+            ?>
 
 
 

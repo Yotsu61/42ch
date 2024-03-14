@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__) ."/secret.php");
+require_once(dirname(__FILE__) . "/secret.php");
 
 ini_set("display_errors", "On");
 error_reporting(E_ALL);
@@ -9,7 +9,7 @@ $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
 
 // 接続確認
 if ($conn->connect_error) {
-    die("データベース接続エラー: " . $conn->connect_error);
+  die("データベース接続エラー: " . $conn->connect_error);
 }
 
 // フォーム送信時処理
@@ -51,35 +51,37 @@ $conn->close();
 
 function h($str)
 {
-    return htmlspecialchars($str, ENT_QUOTES,"");
+  return htmlspecialchars($str, ENT_QUOTES, "");
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel=”icon” href=“favicon.ico”>
 
-    <title>42ch サインイン</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel=”icon” href=“favicon.ico”>
+
+  <title>42ch サインイン</title>
 
 </head>
 
 <body>
 
-    サインイン
-    <form id="messPost" enctype="multipart/form-data" method="POST">
-        <textarea name="user_name_post" value="" placeholder="ユーザ名を入力して下さい" style="width : 210px; height: 25px; margin: 10px 0 10px 0;"
-            rows="1"></textarea><br>
-        <textarea name="password_post" placeholder="パスワードを入力して下さい" style="width : 250px; height: 25px; margin: 10px 0 10px 0;"
-            rows="1"></textarea><br>
-          <textarea name="password_confirm_post" placeholder="パスワードを再入力して下さい" style="width : 250px; height: 25px; margin: 1px 0 10px 0;"
-            rows="1"></textarea><br>
-        <input type="submit" value="サインイン">
-    </form>
+  サインイン
+  <form id="messPost" enctype="multipart/form-data" method="POST">
+    <p>Username: <input name="user_name_post" <?php if (isset($_POST['user_name_post']) && $_POST['user_name_post'] !== "") { ?>value="<?= h($_POST['user_name_post']) ?>" <?php } ?> placeholder="ユーザ名を入力して下さい"
+        style="width : 210px; height: 25px; margin: 10px 0 10px 0;"></p>
+    <p>Password: <input type="password" name="password_post" placeholder="パスワードを入力して下さい"
+        style="width : 250px; height: 25px; margin: 10px 0 10px 0;"></p>
+    <p>Password: <input type="password" name="password_confirm_post" placeholder="パスワードを再入力して下さい"
+        style="width : 250px; height: 25px; margin: 10px 0 10px 0;"></p>
+    <input type="submit" value="サインイン">
+  </form>
 
-    
+
 
 </body>
+
 </html>

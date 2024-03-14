@@ -1,34 +1,40 @@
 <?php
-require_once(dirname(__FILE__) ."/secret.php");
+require_once(dirname(__FILE__) . "/secret.php");
 
 error_reporting(E_ALL);
 
-$user_name;
+$user_name = $_POST['user_name_post'];
 
 session_start();
 
+$anonymous_username = ' <input type="text" name="user_name_post" placeholder="ユーザー名を入力して下さい" style="width: 250px; height: 25px; margin: 10px 0 10px 0;">';
+
+$user_id = 0;
+
 // ログインしていない場合はログイン画面へリダイレクト
 if (isset($_SESSION['user_id'])) {
-//   header("Location: index.php");
+    $anonymous_username = '';
+    //   header("Location: index.php");
 //   exit;
-$user_id = $_SESSION['user_id'];
-// $thread_id = $_GET['thread_id'];
+    $user_id = $_SESSION['user_id'];
+    // $thread_id = $_GET['thread_id'];
 
-$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
+    $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
     // 接続確認
     if ($conn->connect_error) {
         die("データベース接続エラー: " . $conn->connect_error);
     }
-$sql = "SELECT * FROM users WHERE user_id = $user_id";
-$result = $conn->query($sql);
-// 結果を表示
-if ($result->num_rows > 0) {
-    // データがある場合
-    while ($row = $result->fetch_assoc()) {
-        $user_name = $row['user_name'];
-        echo "<br>ユーザ:" . $row['user_name'] . "<br>";
+    $sql = "SELECT * FROM users WHERE user_id = $user_id";
+    $result = $conn->query($sql);
+    // 結果を表示
+    if ($result->num_rows > 0) {
+        // データがある場合
+        while ($row = $result->fetch_assoc()) {
+            $user_name = $row['user_name'];
+            // $user_id = $row['user_id'];
+            echo "<br>ユーザ:" . $row['user_name'] . "<br>";
+        }
     }
-}
 
 }
 
@@ -40,6 +46,7 @@ if ($result->num_rows > 0) {
 
 $max_message_id = 0;
 $thread_title = "";
+$IP_Address = $_SERVER["REMOTE_ADDR"];
 
 // $thread_idg = 0;
 
@@ -86,6 +93,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // これで、$image_nameを必要に応じてデータベースクエリで使用したり保存できます。
     }
 
+    // 動画が正常にアップロードされたか確認
+    if (isset($_FILES['video_post']) && $_FILES['video_post']['error'] == UPLOAD_ERR_OK) {
+        $video_tmp_name = $_FILES['video_post']['tmp_name'];
+        $video_name = $timestamp_usec . "_" . $_FILES['video_post']['name'];
+
+        // アップロードされた動画ファイルを指定の場所に移動
+        move_uploaded_file($video_tmp_name, '../uploads/' . $video_name);
+
+        // これで、$video_nameを必要に応じてデータベースクエリで使用したり保存できます。
+    }
+
+
     # connect mysql PDO
     $dsn = 'mysql:dbname=' . DB_DBNAME . ';host=' . DB_SERVERNAME;
     $pdo = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
@@ -93,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // $sql = $pdo->prepare("INSERT INTO messages (`thread_id`, `user_id`, `message`,`user_name`,`write_timestamp`,`good_cnt`,`bat_cnt`,`message_id`) VALUES (:thread_id,'anonymous',:message,:user_name,now(),0,0,:message_id)");
     // SQLクエリを変更して、アップロードされた画像ファイル名を含めるようにする
-    $sql = $pdo->prepare("INSERT INTO messages (`thread_id`, `user_id`, `message`,`user_name`,`write_timestamp`,`good_cnt`,`bat_cnt`,`message_id`,`image_path`) VALUES (:thread_id, :user_id, :message, :user_name, now(), 0, 0, :message_id, :image_path)");
+    $sql = $pdo->prepare("INSERT INTO messages (`thread_id`, `user_id`, `message`,`user_name`,`write_timestamp`,`good_cnt`,`bat_cnt`,`message_id`,`image_path`,`video_path`,`IP_Address`) VALUES (:thread_id, :user_id, :message, :user_name, now(), 0, 0, :message_id, :image_path, :video_path, :IP_Address)");
 
     // bindParamで:nameなどを変数$nameに設定、PARAM_でデータ型を指定
     $sql->bindParam(':thread_id', $thread_id, PDO::PARAM_INT);
@@ -103,6 +122,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql->bindParam(':message_id', $max_message_id, PDO::PARAM_INT);
     // パラメータをバインド
     $sql->bindParam(':image_path', $image_name, PDO::PARAM_STR); // アップロードされた場合はここで画像ファイル名を使用
+    $sql->bindParam(':video_path', $video_name, PDO::PARAM_STR); // アップロードされた場合はここで動画ファイル名を使用
+    $sql->bindParam(':IP_Address', $IP_Address, PDO::PARAM_STR); //IPアドレス
 
 
     $res = $sql->execute();
@@ -115,6 +136,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $message = $_POST['message_post'];
     var_dump($message); // デバッグ用
+
+    if (!(isset($_SESSION['user_id']))) {
+        
+    }
 
 
 
@@ -130,15 +155,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function h($str)
 {
     return htmlspecialchars($str, ENT_QUOTES, "");
-} 
+}
 
 
 
 // メッセージのハイパーリンク化
-function makeClickableLinks($str) {
+function makeClickableLinks($str)
+{
     // URLを検出し、<a>タグで囲んで返す
-    return preg_replace_callback('/https?:\/\/[^\s<]+/',
-        function($matches) {
+    return preg_replace_callback(
+        '/https?:\/\/[^\s<]+/',
+        function ($matches) {
             return '<a href="' . $matches[0] . '" target="_blank">' . $matches[0] . '</a>';
         },
         $str
@@ -195,17 +222,27 @@ if ($result->num_rows > 0) {
     $result = $conn->query($sql);
 
 
-    
+
 
     // 結果を表示
     if ($result->num_rows > 0) {
         // データがある場合
         while ($row = $result->fetch_assoc()) {
-            echo "" . $row['message_id'] . " " . "<span class='username'>" . h($row['user_name']) . "</span>" . " : " . $row['write_timestamp'] . "<br>";
+            $user_id_hash;
+            if(!($row['user_id'] == 0)){
+                $user_id_hash = substr(md5($row['user_id']),0,7);
+            }else{
+                $user_id_hash = "匿名ユーザ";
+            }
+            echo "" . $row['message_id'] . " : " . "<span class='username'>" . h($row['user_name']) . "</span>" . "　userID:" . $user_id_hash . "　" . $row['write_timestamp'] . "<br>";
             echo "" . nl2br(makeClickableLinks(h($row['message']))) . "<br>";
             if ($row['image_path'] !== null) {
                 $imagePath = '../uploads/' . $row['image_path'];
                 echo "<img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'><br>";
+            }
+            if ($row['video_path'] !== null) {
+                $videoPath = '../uploads/' . $row['video_path'];
+                echo "<video controls width='480' height='270' src='$videoPath'></video>";
             }
             echo '<br>';
         }
@@ -226,12 +263,12 @@ if ($result->num_rows > 0) {
 <html lang="ja" dir="ltr">
 
 <script>
-const userAgent = navigator.userAgent;
-if (/iPhone|Android/.test(userAgent)) {
-    document.write('<link rel="stylesheet" href="mobile_style.css">');
-} else {
-    document.write('<link rel="stylesheet" href="desktop_style.css">');
-}
+    const userAgent = navigator.userAgent;
+    if (/iPhone|Android/.test(userAgent)) {
+        document.write('<link rel="stylesheet" href="mobile_style.css">');
+    } else {
+        document.write('<link rel="stylesheet" href="desktop_style.css">');
+    }
 </script>
 
 <head>
@@ -239,13 +276,13 @@ if (/iPhone|Android/.test(userAgent)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel=”icon” href=“favicon.ico”>
 
-    <title>42ch :<?=$thread_title?></title>
+    <title>42ch :
+        <?= $thread_title ?>
+    </title>
     <style>
         body {
             background-color: #f0e68c;
         }
-
-
     </style>
 </head>
 
@@ -255,21 +292,26 @@ if (/iPhone|Android/.test(userAgent)) {
 
     書き込み欄
     <form id="messPost" enctype="multipart/form-data" method="POST">
-        <!-- <textarea name="user_name_post" value="<?= $_POST['user_name_post']?>" placeholder="ユーザ名を入力して下さい"></textarea><br> -->
+        <?php echo $anonymous_username; ?><br>
+        <!-- <textarea name="user_name_post" value="<?= $_POST['user_name_post'] ?>" placeholder="ユーザ名を入力して下さい"></textarea><br> -->
         <textarea name="message_post" placeholder="メッセージを入力して下さい" style="width : 500px; margin: 10px 0 10px 0;"
             rows="10"></textarea>
         <br>
-        <input type="file" name="image_post" accept="image/*"> <!-- 画像アップロードのために追加 -->
+        <input type="file" name="image_post" accept="image/*" id="file_post"> <!-- 画像アップロード -->
+        <input type="file" name="video_post" accept="video/*" id="file_post"> <!-- 動画アップロード -->
+
         <input type="text" value="<?= $_GET['thread_id'] ?>" name="thread_id" hidden />
         <input type="submit" value="投稿">
+        <progress id="progressBar" value="0" max="100"></progress><!-- プログレスバー -->
+        <span id="progressValue">0%</span>
     </form>
 
-      <!-- index.htmlへ遷移 -->
-  <button onclick="location.href='./login.php'">ログイン</button>
-  <button onclick="location.href='./sign-in.php'">サインイン</button>
+    <!-- index.htmlへ遷移 -->
+    <button onclick="location.href='./login.php'">ログイン</button>
+    <button onclick="location.href='./sign-in.php'">サインイン</button>
 
 
-    
+
 
 </body>
 
@@ -281,10 +323,22 @@ if (/iPhone|Android/.test(userAgent)) {
 
 
 
+
 <!-- スレッド投稿フォームからPHPへPOSTするJavascript処理 -->
 
 <script>
     const myFormElm = document.forms.messPost;
+    const progressBar = document.getElementById('progressBar');
+    const progressValue = document.getElementById('progressValue');
+
+    // プログレスバーの値が変更されたときに発火するイベントリスナーを追加
+    progressBar.addEventListener('input', function () {
+        // プログレスバーの値を取得
+        const value = progressBar.value;
+        // ％表示要素を更新
+        progressValue.textContent = value + '%';
+    });
+
 
     myFormElm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -297,42 +351,31 @@ if (/iPhone|Android/.test(userAgent)) {
             return;
         }
 
-        
-        
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'thread.php');
 
+        // アップロードの進行状況を監視
+        xhr.upload.addEventListener('progress', (e) => {
+            if (e.lengthComputable) {
+                const percentComplete = (e.loaded / e.total) * 100;
+                progressBar.value = percentComplete;
+                progressValue.textContent = percentComplete.toFixed(0) + '%'; // ％を表示する
+            }
+        });
 
-
-
-        // // メッセージ内のURLを自動的にハイパーリンク化する処理を追加
-        // const message = formData.get('message_post');
-        // const urlRegex = /(https?:\/\/[^\s]+)/g;
-        // const urls = message.match(urlRegex);
-        // if (urls) {
-        //     for (const url of urls) {
-        //         const linkedMessage = message.replace(url, `<a href="${url}" target="_blank">${url}</a>`);
-        //         formData.set('message_post', linkedMessage);
-        //     }
-        // }
-
-
+        // アップロードが完了した際の処理
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log('ファイルのアップロードが完了しました。');
+                window.location.reload(); // ページをリロード
+            } else {
+                console.error('ファイルのアップロード中にエラーが発生しました。');
+                window.location.reload(); // エラーが発生した場合もページをリロード
+            }
+        };
 
         // フォームを送信
-        fetch('thread.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(res => {
-                console.log(res);
-                console.log("1");
-                window.location.reload();
-                console.log("2"); // この行が実行されるはず
-            })
-            .catch(error => {
-                console.log("er");
-                console.log(error);
-                window.location.reload();
-            });
+        xhr.send(formData);
     });
 
 </script>
