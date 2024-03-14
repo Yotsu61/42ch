@@ -169,10 +169,10 @@ function h($str)
 
             // SELECTクエリを実行
             $sql = "SELECT t.thread_title, t.thread_id, 
-            m.message_id as count_message, m.write_timestamp as last_message_timestamp
+            COUNT(m.message_id) AS count_message, 
+            MAX(m.write_timestamp) AS last_message_timestamp
             FROM threads t
             LEFT JOIN messages m ON t.thread_id = m.thread_id
-            WHERE m.message_id = (SELECT COUNT(message_id) FROM messages WHERE thread_id = t.thread_id)
             GROUP BY t.thread_id";
             $result = $conn->query($sql);
 
