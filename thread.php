@@ -297,13 +297,16 @@ if ($result->num_rows > 0) {
         <textarea name="message_post" placeholder="メッセージを入力して下さい" style="width : 500px; margin: 10px 0 10px 0;"
             rows="10"></textarea>
         <br>
-        <input type="file" name="image_post" accept="image/*" id="file_post"> <!-- 画像アップロード -->
-        <input type="file" name="video_post" accept="video/*" id="file_post"> <!-- 動画アップロード -->
+        画像ファイル<input type="file" name="image_post" accept="image/*" id="file_post"><br> <!-- 画像アップロード -->
+        動画ファイル<input type="file" name="video_post" accept="video/*" id="file_post"> <!-- 動画アップロード -->
 
         <input type="text" value="<?= $_GET['thread_id'] ?>" name="thread_id" hidden />
-        <input type="submit" value="投稿">
         <progress id="progressBar" value="0" max="100"></progress><!-- プログレスバー -->
         <span id="progressValue">0%</span>
+
+        <input type="submit" value="投稿">
+        
+        
     </form>
 
     <!-- index.htmlへ遷移 -->
