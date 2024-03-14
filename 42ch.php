@@ -155,7 +155,13 @@ function h($str)
 
 <h2>42ch</h2>
 
-<h5>Opps! XSSの脆弱性は対策されました</h5>
+<h4>
+Update!2023/03/14<br>
+動画が投稿できるようになりました（300MBまで）<br>
+ログインしなくても投稿できるようになりました<br>
+レス数と更新日時が表示されるようになりました<br>
+その他修正<br>
+</h4>
 <!-- <p><a href="../42ch_v1.1 Unsecured/42ch.php">旧42ch v1.1 XSS未対策Ver<a></p> -->
 
 <a href="https://yotsunoserver.yotsu.cc/ajtest/ajax.php">ズミchat<a></p>
