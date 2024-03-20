@@ -11,13 +11,25 @@ $anonymous_username = ' <input type="text" name="user_name_post" placeholder="�
 
 $user_id = 0;
 
-// ログインしていない場合はログイン画面へリダイレクト
+$login_button = '<button onclick="location.href=\'./login.php\'">ログイン</button>';
+$logout_button = '';
+$sign_in_button = '<button onclick="location.href=\'./sign-in.php\'">サインイン</button>';
+
+
+
+// SESSION user_idを取得したら
 if (isset($_SESSION['user_id'])) {
     $anonymous_username = '';
     //   header("Location: index.php");
 //   exit;
     $user_id = $_SESSION['user_id'];
     // $thread_id = $_GET['thread_id'];
+
+    $login_button = "";
+    $sign_in_button = "";
+    $logout_button = '<button onclick="location.href=\'./logout.php\'">ログアウト</button>';
+
+
 
     $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
     // 接続確認
@@ -88,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $image_name = $timestamp_usec . "_" . $_FILES['image_post']['name'];
 
         // アップロードされたファイルを指定の場所に移動
-        move_uploaded_file($image_tmp_name, '../uploads/' . $image_name);
+        move_uploaded_file($image_tmp_name, IMAGE_FILE_PATH . $image_name);
 
         // これで、$image_nameを必要に応じてデータベースクエリで使用したり保存できます。
     }
@@ -99,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $video_name = $timestamp_usec . "_" . $_FILES['video_post']['name'];
 
         // アップロードされた動画ファイルを指定の場所に移動
-        move_uploaded_file($video_tmp_name, '../uploads/' . $video_name);
+        move_uploaded_file($video_tmp_name, VIDEO_FILE_PATH . $video_name);
 
         // これで、$video_nameを必要に応じてデータベースクエリで使用したり保存できます。
     }
@@ -237,11 +249,11 @@ if ($result->num_rows > 0) {
             echo "" . $row['message_id'] . " : " . "<span class='username'>" . h($row['user_name']) . "</span>" . "　userID:" . $user_id_hash . "　" . $row['write_timestamp'] . "<br>";
             echo "" . nl2br(makeClickableLinks(h($row['message']))) . "<br>";
             if ($row['image_path'] !== null) {
-                $imagePath = '../uploads/' . $row['image_path'];
+                $imagePath = IMAGE_FILE_PATH . $row['image_path'];
                 echo "<img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'><br>";
             }
             if ($row['video_path'] !== null) {
-                $videoPath = '../uploads/' . $row['video_path'];
+                $videoPath = VIDEO_FILE_PATH . $row['video_path'];
                 echo "<video controls width='480' height='270' src='$videoPath'></video>";
             }
             echo '<br>';
@@ -271,7 +283,7 @@ if ($result->num_rows > 0) {
     }
 </script>
 
-<head>
+<header>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel=”icon” href=“favicon.ico”>
@@ -284,7 +296,7 @@ if ($result->num_rows > 0) {
             background-color: #f0e68c;
         }
     </style>
-</head>
+</header>
 
 <body>
 
@@ -302,7 +314,7 @@ if ($result->num_rows > 0) {
 
         <input type="text" value="<?= $_GET['thread_id'] ?>" name="thread_id" hidden />
         <progress id="progressBar" value="0" max="100"></progress><!-- プログレスバー -->
-        <span id="progressValue">0%</span>
+        <span id="progressValue">　</span>
 
         <input type="submit" value="投稿">
         
@@ -310,8 +322,13 @@ if ($result->num_rows > 0) {
     </form>
 
     <!-- index.htmlへ遷移 -->
-    <button onclick="location.href='./login.php'">ログイン</button>
-    <button onclick="location.href='./sign-in.php'">サインイン</button>
+    <!-- <button onclick="location.href='./login.php'">ログイン</button>
+    <button onclick="location.href='./sign-in.php'">サインイン</button> -->
+    <?php
+        echo $login_button;
+        echo $sign_in_button;
+        echo $logout_button;
+    ?>
 
 
 
