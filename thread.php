@@ -11,6 +11,8 @@ $anonymous_username = ' <input type="text" name="user_name_post" placeholder="�
 
 $user_id = 0;
 
+
+
 // ログインしていない場合はログイン画面へリダイレクト
 if (isset($_SESSION['user_id'])) {
     $anonymous_username = '';
