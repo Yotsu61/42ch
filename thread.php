@@ -180,6 +180,8 @@ function makeClickableLinks($str)
 <!-- スレッドタイトル表示 -->
 <h2>42ch</h2>
 
+<h4>ようこそ　42chへ</h4>
+
 
 
 <?php
