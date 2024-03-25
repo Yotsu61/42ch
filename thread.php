@@ -11,10 +11,13 @@ $anonymous_username = ' <input type="text" name="user_name_post" placeholder="�
 
 $user_id = 0;
 
+$login_button = '<button onclick="location.href=\'./login.php\'">ログイン</button>';
+$logout_button = '';
+$sign_in_button = '<button onclick="location.href=\'./sign-in.php\'">サインイン</button>';
 
 
-
-// ログインしていない場合はログイン画面へリダイレクト
+//ようこそ
+// SESSION user_idを取得したら
 if (isset($_SESSION['user_id'])) {
     $anonymous_username = '';
     //   header("Location: index.php");

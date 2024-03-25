@@ -1,18 +1,39 @@
 <?php
+session_start();
+
 // エラーを出力する
 ini_set('display_errors', "On");
-ini_set('session.gc_maxlifetime',"1814400");
+// ini_set('session.gc_maxlifetime',"1814400");
 
 require_once(dirname(__FILE__) . "/secret.php");
 
 $user_name = "ログインしていません";
 
 // セッションIDがCookieに保存されている場合は取得して設定
-if (isset($_COOKIE["42ch_Cookie"])) {
-    session_id($_COOKIE["42ch_Cookie"]);
+// if (isset($_COOKIE["42ch_Cookie"])) {
+//     session_id($_COOKIE["42ch_Cookie"]);
+// }
+if (!isset($_SESSION["user_id"]) and isset($_COOKIE["42ch_Cookie"])){
+    $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
+    // 接続確認
+    if ($conn->connect_error) {
+        die("データベース接続エラー: " . $conn->connect_error);
+    }
+    $sql = "SELECT * FROM session_keys WHERE session_key = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $_COOKIE["42ch_Cookie"]);
+    // 結果を表示
+     $stmt ->execute();
+     $result = $stmt ->get_result();
+    if ($result->num_rows > 0) {
+        // データがある場合
+        while ($row = $result->fetch_assoc()) {
+            $_SESSION['user_id'] = $row['user_id'];
+        }
+    }
 }
 
-session_start();
+
 
 $mobile = false;
 
