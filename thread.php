@@ -15,15 +15,6 @@ $user_id = 0;
 
 
 // ログインしていない場合はログイン画面へリダイレクト
-=======
-$login_button = '<button onclick="location.href=\'./login.php\'">ログイン</button>';
-$logout_button = '';
-$sign_in_button = '<button onclick="location.href=\'./sign-in.php\'">サインイン</button>';
-
-
-
-// SESSION user_idを取得したら
->>>>>>> a9d98730c3508016d686ca6951c79c7251be1ee0
 if (isset($_SESSION['user_id'])) {
     $anonymous_username = '';
     //   header("Location: index.php");
