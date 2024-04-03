@@ -10,8 +10,8 @@ if (isset($_SESSION['user_id'])) {
     // セッション変数を全て削除
     $_SESSION = array();
     // セッションクッキーを削除
-    if (isset($_COOKIE["PHPSESSID"])) {
-        setcookie("PHPSESSID", '', time() - 1800, '/');
+    if (isset($_COOKIE[session_name()])) {
+        setcookie(session_name(), '', time() - 1800, '/');
     }
     // セッションの登録データを削除
     session_destroy();

@@ -72,7 +72,7 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 echo "ユーザー名:", $user_name;
-echo $_SERVER['REMOTE_ADDR'];
+// echo $_SERVER['REMOTE_ADDR'];
 ?>
 
 
@@ -177,11 +177,17 @@ function h($str)
 <h2>42ch</h2>
 
 <h4>
-Update!2024/03/14<br>
+Update!2024/04/03 v3.5.1<br>
+ご不便おかけし申し訳ございません<br>
+ログアウトできないバグを修正しました<br>
+2024/03/25 v3.5<br>
+Cookieでログイン状態を保持できるようになりました<br>
+<!-- 2024/03/14 v3.0<br>
 動画が投稿できるようになりました（300MBまで）<br>
 ログインしなくても投稿できるようになりました<br>
 レス数と更新日時が表示されるようになりました<br>
-その他修正<br>
+その他修正<br> -->
+
 </h4>
 <!-- <p><a href="../42ch_v1.1 Unsecured/42ch.php">旧42ch v1.1 XSS未対策Ver<a></p> -->
 
@@ -247,12 +253,14 @@ Update!2024/03/14<br>
 
 
         <body>
-            <!-- <h3>スレッド一覧</h3> -->
+        <div style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;">
             <form id="messPost">
+            <h4>スレッド作成フォーム</h4>
             <input type="text" name="thread_title_post" placeholder="スレッドタイトルを入力して下さい" style="width: 250px; height: 25px; margin: 10px 0 10px 0;">
-                <br>
+                <!-- <br> -->
                 <input type="submit" value="投稿">
             </form>
+        </div>
 
 
             <!-- <button onclick="location.href='./login.php'">ログイン</button>
