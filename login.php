@@ -1,8 +1,8 @@
 <?php
 require_once (dirname(__FILE__) . "/secret.php");
 
-ini_set("display_errors", "On");
-error_reporting(E_ALL);
+// ini_set("display_errors", "On");
+// error_reporting(E_ALL);
 
 // データベース接続
 $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
@@ -54,7 +54,10 @@ if (isset ($_POST['user_name_post']) && isset ($_POST['password_post'])) {
         setcookie("42ch_Cookie", $session_k, time() + 60*60*24*30*6,"/");
 
 
-      header("Location: 42ch.php");
+      // header("Location: 42ch.php");
+      echo "ログインに成功しました";
+      echo '<script>setTimeout(function() { window.location.href = "42ch.php"; }, 600);</script>';
+
       exit;
     } else {
       // パスワード不一致

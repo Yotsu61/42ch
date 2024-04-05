@@ -15,6 +15,7 @@ if (isset($_SESSION['user_id'])) {
     }
     // セッションの登録データを削除
     session_destroy();
+    setcookie("42ch_Cookie", '', time() - 3600, "/");
     echo "ログアウト処理完了";
     //exit(); // リダイレクト前にスクリプトの実行を終了
 } else {
