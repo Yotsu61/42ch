@@ -1,5 +1,5 @@
 <?php
-require_once (dirname(__FILE__) . "/secret.php");
+require_once(dirname(__FILE__) . "/secret.php");
 
 ini_set("display_errors", "On");
 error_reporting(E_ALL);
@@ -43,6 +43,7 @@ if (isset($_POST['user_name_post']) && isset($_POST['password_post']) && isset($
 
     // 登録成功
     echo "ユーザー登録が完了しました。";
+    echo '<script>setTimeout(function() { window.location.href = "login.php"; }, 600);</script>';
   }
 }
 
@@ -64,26 +65,8 @@ function h($str)
   <link rel=”icon” href=“favicon.ico”>
 
   <title>42ch サインイン</title>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3BGZCNTS8"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-L3BGZCNTS8');
-  </script>
+  <?php include ( dirname(__FILE__) . '/GoogleAnalitycs.php' ); ?>
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3BGZCNTS8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-
-  gtag('config', 'G-L3BGZCNTS8');
-</script>
 
 <body>
 
@@ -98,7 +81,7 @@ function h($str)
     <input type="submit" value="サインイン">
   </form>
 
-
+<!-- <button onclick="location.href='./42ch.php'">戻る</button> -->
 
 </body>
 

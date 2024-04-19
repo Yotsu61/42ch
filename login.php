@@ -9,11 +9,11 @@ $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
 
 // 接続確認
 if ($conn->connect_error) {
-  die("データベース接続エラー: " . $conn->connect_error);
+  die ("データベース接続エラー: " . $conn->connect_error);
 }
 
 // フォーム送信時処理
-if (isset($_POST['user_name_post']) && isset($_POST['password_post'])) {
+if (isset ($_POST['user_name_post']) && isset ($_POST['password_post'])) {
   $username = $_POST['user_name_post'];
   $password = $_POST['password_post'];
 
@@ -43,15 +43,15 @@ if (isset($_POST['user_name_post']) && isset($_POST['password_post'])) {
       $stmt->execute();
       $result = $stmt->get_result();
 
+      
 
+        // ユーザー登録
+        $sql = "INSERT INTO session_keys (session_key, user_id, session_key_date) VALUES (?,?,?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sis", $session_k ,$_SESSION['user_id'] ,date("Y-m-d H:i:s", strtotime("+6 month")));
 
-      // ユーザー登録
-      $sql = "INSERT INTO session_keys (session_key, user_id, session_key_date) VALUES (?,?,?)";
-      $stmt = $conn->prepare($sql);
-      $stmt->bind_param("sis", $session_k, $_SESSION['user_id'], date("Y-m-d H:i:s", strtotime("+6 month")));
-
-      $stmt->execute();
-      setcookie("42ch_Cookie", $session_k, time() + 60 * 60 * 24 * 30 * 6, "/");
+        $stmt->execute();
+        setcookie("42ch_Cookie", $session_k, time() + 60*60*24*30*6,"/");
 
 
       // header("Location: 42ch.php");
@@ -91,25 +91,15 @@ function h($str)
 
   <title>42ch ログイン</title>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3BGZCNTS8"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-L3BGZCNTS8');
-  </script>
+  <?php include ( dirname(__FILE__) . '/GoogleAnalitycs.php' ); ?>
 </head>
-
-
 
 <body>
 
 
 
   <form id="messPost" enctype="multipart/form-data" method="POST">
-    <p>Username: <input name="user_name_post" <?php if (isset($_POST['user_name_post']) && $_POST['user_name_post'] !== "") { ?>value="<?= h($_POST['user_name_post']) ?>" <?php } ?> placeholder="ユーザ名を入力して下さい"
+    <p>Username: <input name="user_name_post" <?php if (isset ($_POST['user_name_post']) && $_POST['user_name_post'] !== "") { ?>value="<?= h($_POST['user_name_post']) ?>" <?php } ?> placeholder="ユーザ名を入力して下さい"
         style="width : 210px; height: 25px; margin: 10px 0 10px 0;"></p>
     <p>Password: <input type="password" name="password_post" placeholder="パスワードを入力して下さい"
         style="width : 250px; height: 25px; margin: 10px 0 10px 0;"></p>

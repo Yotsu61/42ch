@@ -7,7 +7,7 @@ $user_name = $_POST['user_name_post'];
 
 session_start();
 
-$anonymous_username = ' <input type="text" name="user_name_post" placeholder="ユーザー名を入力して下さい" style="width: 250px; height: 25px; margin: 10px 0 10px 0;">';
+$anonymous_username = ' <input type="text" name="user_name_post" value="" placeholder="ユーザー名を入力して下さい" style="width: 250px; height: 25px; margin: 10px 0 10px 0;">';
 
 $user_id = 0;
 
@@ -183,6 +183,61 @@ function makeClickableLinks($str)
         $str
     );
 }
+
+// function makeClickableAnker($str)
+// {
+//     // アンカーを検出し、<a>タグで囲んで返す
+//     // return preg_replace_callback(
+//     //     '/>>(\d{1,1000})/',
+//     //     function ($matches) {
+//     //         return '<a href="#anker' . $matches[0] . '" target="_blank">' . $matches[0] . '</a>';
+//     //     },
+//     //     $str
+//     // );
+
+
+//     $pattern = '/>>(\d{1,99})/u';
+//     $replacement = '$1';
+
+//     var_dump(mb_strlen($str));
+//     foreach ($str as  $value) {
+//         var_dump($value);
+//     }
+
+//     // var_dump(
+//     //     preg_match($pattern ,$str)
+//     // );
+//     // $n_str =   mb_ereg_replace($pattern, $replacement, $str);
+//     // var_dump($n_str);
+//     return $str;
+// }
+
+// function makeClickableAnker($str)
+// {
+//     // URLを検出し、<a>タグで囲んで返す
+//     return preg_replace_callback(
+//         '/>>?:\/\/[^\s<]+/',
+//         function ($matches) {
+//             return '<a href="' . $matches[0] . '" target="_blank">' . $matches[0] . '</a>';
+//         },
+//         $str
+//     );
+// }
+
+// アンカーリンク化
+function makeClickableAnker($str)
+{
+    // アンカーを検出し、<a>タグで囲んで返す
+
+    $pattern = '/>>([0-9]+)/u';
+    $replacement = function ($matches) {
+        $anchorId = $matches[1];
+        return '<a href="#' . $anchorId . '">' . $anchorId . '</a>';
+    };
+
+    return preg_replace_callback($pattern, $replacement, $str);
+}
+
 ?>
 
 
@@ -205,7 +260,7 @@ if ($result->num_rows > 0) {
     // データがある場合
     while ($row = $result->fetch_assoc()) {
         $thread_title = $row['thread_title'];
-        echo "<h2>" . $row['thread_title'] . "</h2><br>";
+        echo "<h2>" . h($row['thread_title']) . "</h2><br>";
     }
 }
 
@@ -240,6 +295,10 @@ if ($result->num_rows > 0) {
     if ($result->num_rows > 0) {
         // データがある場合
         while ($row = $result->fetch_assoc()) {
+            //アンカー遷移用
+            // echo '<div id="anker'. $row['message_id'] . '">リンク先</div>';
+            echo '<a name="' . $row['message_id'] . '">リンク先</a>';
+
             $user_id_hash;
             if (!($row['user_id'] == 0)) {
                 $user_id_hash = substr(md5($row['user_id']), 0, 7);
@@ -247,7 +306,7 @@ if ($result->num_rows > 0) {
                 $user_id_hash = "匿名ユーザ";
             }
             echo "" . $row['message_id'] . " : " . "<span class='username'>" . h($row['user_name']) . "</span>" . "　userID:" . $user_id_hash . "　" . $row['write_timestamp'] . "<br>";
-            echo "" . nl2br(makeClickableLinks(h($row['message']))) . "<br>";
+            echo "" . nl2br(makeClickableLinks(makeClickableAnker(h($row['message'])))) . "<br>";
             if ($row['image_path'] !== null) {
                 $imagePath = IMAGE_FILE_PATH . $row['image_path'];
                 echo "<img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'><br>";
@@ -283,22 +342,20 @@ if ($result->num_rows > 0) {
     }
 </script>
 
+
 <head>
+    <script src="path/to/script.js"></script>
+
+
+
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel=”icon” href=“favicon.ico”>
+    <script src="path/to/script.js"></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3BGZCNTS8"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-L3BGZCNTS8');
-    </script>
+    <?php include ( dirname(__FILE__) . '/GoogleAnalitycs.php' ); ?>
 </head>
-
 
 <header>
     <title>42ch :
@@ -380,7 +437,7 @@ if ($result->num_rows > 0) {
         // フォームが空かチェック
         if (formData.get('message_post') === '') {
             // エラーを表示
-            alert('スレッドタイトルを入力してください。');
+            alert('メッセージを入力してください。');
             return;
         }
 
@@ -410,5 +467,62 @@ if ($result->num_rows > 0) {
         // フォームを送信
         xhr.send(formData);
     });
+
+</script>
+
+<script>
+    // ... (省略)
+
+    // アンカークリック時の処理
+    document.addEventListener('click', function (event) {
+        const target = event.target;
+        const anchorId = target.getAttribute('href');
+
+        if (anchorId && anchorId.startsWith('#')) {
+            event.preventDefault();
+
+            const anchorElement = document.querySelector(anchorId);
+            if (anchorElement) {
+                // smoothScrollライブラリを使用
+                smoothScroll(anchorElement);
+            }
+        }
+    });
+
+    // smoothScrollライブラリ (例)
+    function smoothScroll(element) {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const targetTop = element.getBoundingClientRect().top;
+        const scrollDelta = targetTop - scrollTop;
+
+        const easing = function (t) {
+            return t * t * (3 - 2 * t);
+        };
+
+        let startTimestamp = null;
+        const animationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame;
+
+        function step() {
+            if (startTimestamp === null) {
+                startTimestamp = Date.now();
+            }
+
+            const progress = (Date.now() - startTimestamp) / 1000;
+            const normalizedProgress = easing(progress);
+
+            const newScrollTop = scrollTop + normalizedProgress * scrollDelta;
+            window.scrollTo(0, newScrollTop);
+
+            if (normalizedProgress < 1) {
+                animationFrame(step);
+            } else {
+                startTimestamp = null;
+            }
+        }
+
+        animationFrame(step);
+    }
+
+    // ... (省略)
 
 </script>

@@ -29,18 +29,8 @@ if (isset($_SESSION['user_id'])) {
 <meta charset="utf-8">
 <meta http-equiv="refresh" content="1;url=./42ch.php">
 <title>Logout</title>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3BGZCNTS8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-L3BGZCNTS8');
-</script>
+<?php include ( dirname(__FILE__) . '/GoogleAnalitycs.php' ); ?>
 </head>
-
 <body>
 <!-- <button onclick="location.href='./42ch.php'">戻る</button> -->
 </body>
