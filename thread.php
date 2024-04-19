@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__) . "/secret.php");
+require_once (dirname(__FILE__) . "/secret.php");
 
 error_reporting(E_ALL);
 
@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     var_dump($message); // デバッグ用
 
     if (!(isset($_SESSION['user_id']))) {
-        
+
     }
 
 
@@ -241,9 +241,9 @@ if ($result->num_rows > 0) {
         // データがある場合
         while ($row = $result->fetch_assoc()) {
             $user_id_hash;
-            if(!($row['user_id'] == 0)){
-                $user_id_hash = substr(md5($row['user_id']),0,7);
-            }else{
+            if (!($row['user_id'] == 0)) {
+                $user_id_hash = substr(md5($row['user_id']), 0, 7);
+            } else {
                 $user_id_hash = "匿名ユーザ";
             }
             echo "" . $row['message_id'] . " : " . "<span class='username'>" . h($row['user_name']) . "</span>" . "　userID:" . $user_id_hash . "　" . $row['write_timestamp'] . "<br>";
@@ -287,16 +287,18 @@ if ($result->num_rows > 0) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel=”icon” href=“favicon.ico”>
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3BGZCNTS8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-L3BGZCNTS8');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3BGZCNTS8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-L3BGZCNTS8');
+    </script>
+</head>
+
 
 <header>
     <title>42ch :
@@ -328,17 +330,17 @@ if ($result->num_rows > 0) {
         <span id="progressValue">　</span>
 
         <input type="submit" value="投稿">
-        
-        
+
+
     </form>
 
     <!-- index.htmlへ遷移 -->
     <!-- <button onclick="location.href='./login.php'">ログイン</button>
     <button onclick="location.href='./sign-in.php'">サインイン</button> -->
     <?php
-        echo $login_button;
-        echo $sign_in_button;
-        echo $logout_button;
+    echo $login_button;
+    echo $sign_in_button;
+    echo $logout_button;
     ?>
 
 

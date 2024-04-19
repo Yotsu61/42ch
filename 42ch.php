@@ -5,7 +5,7 @@ session_start();
 ini_set('display_errors', "On");
 // ini_set('session.gc_maxlifetime',"1814400");
 
-require_once(dirname(__FILE__) . "/secret.php");
+require_once (dirname(__FILE__) . "/secret.php");
 
 $user_name = "ログインしていません";
 
@@ -13,7 +13,7 @@ $user_name = "ログインしていません";
 // if (isset($_COOKIE["42ch_Cookie"])) {
 //     session_id($_COOKIE["42ch_Cookie"]);
 // }
-if (!isset($_SESSION["user_id"]) and isset($_COOKIE["42ch_Cookie"])){
+if (!isset($_SESSION["user_id"]) and isset($_COOKIE["42ch_Cookie"])) {
     $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
     // 接続確認
     if ($conn->connect_error) {
@@ -23,8 +23,8 @@ if (!isset($_SESSION["user_id"]) and isset($_COOKIE["42ch_Cookie"])){
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $_COOKIE["42ch_Cookie"]);
     // 結果を表示
-     $stmt ->execute();
-     $result = $stmt ->get_result();
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         // データがある場合
         while ($row = $result->fetch_assoc()) {
@@ -158,17 +158,18 @@ function h($str)
 
     <title>42ch</title>
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3BGZCNTS8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-L3BGZCNTS8');
+    </script>
 </head>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3BGZCNTS8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-L3BGZCNTS8');
-</script>
 
 
 <script>
@@ -187,12 +188,12 @@ function h($str)
 <h2>42ch</h2>
 
 <h4>
-Update!2024/04/05 v3.5.1<br>
-ご不便おかけし申し訳ございません<br>
-ログアウトできないバグを修正しました<br>
-2024/03/25 v3.5<br>
-Cookieでログイン状態を保持できるようになりました<br>
-<!-- 2024/03/14 v3.0<br>
+    Update!2024/04/05 v3.5.1<br>
+    ご不便おかけし申し訳ございません<br>
+    ログアウトできないバグを修正しました<br>
+    2024/03/25 v3.5<br>
+    Cookieでログイン状態を保持できるようになりました<br>
+    <!-- 2024/03/14 v3.0<br>
 動画が投稿できるようになりました（300MBまで）<br>
 ログインしなくても投稿できるようになりました<br>
 レス数と更新日時が表示されるようになりました<br>
@@ -235,7 +236,7 @@ Cookieでログイン状態を保持できるようになりました<br>
                 // データがある場合
                 while ($row = $result->fetch_assoc()) {
                     // echo "スレッド: " . $row["title"]. " " . $row["id"]. "<br>";
-
+            
 
                     echo '<div class="threads-list"><a href="thread.php?thread_id=' . h($row['thread_id']) . '">' . h($row['thread_title']) . '</a>';
                     echo '<div class="thread_info">レス数:' . $row['count_message'] . ' 更新: ' . $row['last_message_timestamp'] . '</div></div>';
@@ -263,14 +264,15 @@ Cookieでログイン状態を保持できるようになりました<br>
 
 
         <body>
-        <div style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;">
-            <form id="messPost">
-            <h4>スレッド作成フォーム</h4>
-            <input type="text" name="thread_title_post" placeholder="スレッドタイトルを入力して下さい" style="width: 250px; height: 25px; margin: 10px 0 10px 0;">
-                <!-- <br> -->
-                <input type="submit" value="投稿">
-            </form>
-        </div>
+            <div style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;">
+                <form id="messPost">
+                    <h4>スレッド作成フォーム</h4>
+                    <input type="text" name="thread_title_post" placeholder="スレッドタイトルを入力して下さい"
+                        style="width: 250px; height: 25px; margin: 10px 0 10px 0;">
+                    <!-- <br> -->
+                    <input type="submit" value="投稿">
+                </form>
+            </div>
 
 
             <!-- <button onclick="location.href='./login.php'">ログイン</button>
