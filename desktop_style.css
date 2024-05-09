@@ -24,6 +24,29 @@ a {
     margin-bottom: 6px;
 }
 
+/* メッセージ　ユーザID,タイムスタンプ */
+.message_info {
+    font-size: 14px;
+    color:rgb(0, 0, 0);
+    margin-bottom: 6px;
+    /*横に並べる*/
+    display: inline-block; 
+    /* 余白左 */
+    margin-left: 10px;
+
+}
+
+.message{
+    margin-left: 10px;
+}
+
+.userID{
+    color:rgb(0, 0, 204);
+}
+.anonymasID{
+    color:rgb(219, 145, 6);
+}
+
 .threads-list{
     /* display:flex; */
 }
@@ -60,3 +83,18 @@ a {
     background: #333;
     color: #FFF;
     } */
+
+
+    c[href^="#"] {
+        text-decoration: none;
+      }
+      
+      c[href^="#"]:hover {
+        text-decoration: underline;
+      }
+      
+      /* スクロールアニメーション */
+      body {
+        scroll-behavior: smooth;
+      }
+      

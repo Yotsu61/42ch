@@ -93,6 +93,13 @@ input[type="submit"] {
     color: green;
 }
 
+.userID{
+    color:rgb(0, 0, 204);
+}
+.anonymasID{
+    color:rgb(219, 145, 6);
+}
+
 .separator {
     color: black;
 }

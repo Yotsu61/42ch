@@ -297,16 +297,16 @@ if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             //アンカー遷移用
             // echo '<div id="anker'. $row['message_id'] . '">リンク先</div>';
-            echo '<a name="' . $row['message_id'] . '">リンク先</a>';
+            // echo '<a name="' . $row['message_id'] . '">リンク先</a>';
 
             $user_id_hash;
             if (!($row['user_id'] == 0)) {
-                $user_id_hash = substr(md5($row['user_id']), 0, 7);
+                $user_id_hash = "userID: <span class='userID'>" . substr(md5($row['user_id']), 0, 7) . "</span>";
             } else {
-                $user_id_hash = "匿名ユーザ";
+                $user_id_hash = "匿名ユーザ ID: <span class='anonymasID'>" . substr(md5($row['IP_Address']), 0, 7) . "</span>";
             }
-            echo "" . $row['message_id'] . " : " . "<span class='username'>" . h($row['user_name']) . "</span>" . "　userID:" . $user_id_hash . "　" . $row['write_timestamp'] . "<br>";
-            echo "" . nl2br(makeClickableLinks(makeClickableAnker(h($row['message'])))) . "<br>";
+            echo "" . $row['message_id'] . " : " . "<span class='username'>" . h($row['user_name']) . "</span>" . "<div class='message_info'>" . $user_id_hash . "　" . $row['write_timestamp'] . "</div><br>";
+            echo "<div class='message'>" . makeClickableLinks(makeClickableAnker(h($row['message']))) . "</div><br>";
             if ($row['image_path'] !== null) {
                 $imagePath = IMAGE_FILE_PATH . $row['image_path'];
                 echo "<img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'><br>";
@@ -375,7 +375,7 @@ if ($result->num_rows > 0) {
     書き込み欄
     <form id="messPost" enctype="multipart/form-data" method="POST">
         <?php echo $anonymous_username; ?><br>
-        <!-- <textarea name="user_name_post" value="<?= $_POST['user_name_post'] ?>" placeholder="ユーザ名を入力して下さい"></textarea><br> -->
+        <!-- <textarea name="user_name_post" value="<?= $_POST['user_name_post'] ?>" placeholder="ユーザ名を入力して下さいchinco"></textarea><br> -->
         <textarea name="message_post" placeholder="メッセージを入力して下さい" style="width : 500px; margin: 10px 0 10px 0;"
             rows="10"></textarea>
         <br>
@@ -470,6 +470,9 @@ if ($result->num_rows > 0) {
 
 </script>
 
+
+
+<!-- 
 <script>
     // ... (省略)
 
@@ -525,4 +528,4 @@ if ($result->num_rows > 0) {
 
     // ... (省略)
 
-</script>
+</script> -->
