@@ -309,7 +309,8 @@ if ($result->num_rows > 0) {
             echo "<div class='message'>" . makeClickableLinks(makeClickableAnker(h($row['message']))) . "</div><br>";
             if ($row['image_path'] !== null) {
                 $imagePath = IMAGE_FILE_PATH . $row['image_path'];
-                echo "<img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'><br>";
+                // echo "<img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'><br>";
+                echo "<a href='$imagePath' target='_blank'><img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'></a><br>";
             }
             if ($row['video_path'] !== null) {
                 $videoPath = VIDEO_FILE_PATH . $row['video_path'];
