@@ -217,7 +217,8 @@ Cookieでログイン状態を保持できるようになりました<br>
             MAX(m.write_timestamp) AS last_message_timestamp
             FROM threads t
             LEFT JOIN messages m ON t.thread_id = m.thread_id
-            GROUP BY t.thread_id";
+            GROUP BY t.thread_id
+            ORDER BY thread_id DESC";
 
             $result = $conn->query($sql);
 
@@ -226,10 +227,12 @@ Cookieでログイン状態を保持できるようになりました<br>
                 // データがある場合
                 while ($row = $result->fetch_assoc()) {
                     // echo "スレッド: " . $row["title"]. " " . $row["id"]. "<br>";
+                    
+                    echo '<div class="threads-list"><a href="thread.php?thread_id=' . h($row['thread_id']) . '">' . h($row['thread_title']) . '</a></br>';
+                    // echo 'レス数:<div class="thread_info">' . $row['count_message'] . '</div> 更新: <div class="thread_info">' . $row['last_message_timestamp'] . '</div></div>';
+                    echo '<span class="tik">レス数：</span><span class="thread_info">' . $row['count_message'] . '</span> ';
+                    echo '<span class="tik">更新：</span><span class="thread_info">' . $row['last_message_timestamp'] . '</span>';
 
-
-                    echo '<div class="threads-list"><a href="thread.php?thread_id=' . h($row['thread_id']) . '">' . h($row['thread_title']) . '</a>';
-                    echo '<div class="thread_info">レス数:' . $row['count_message'] . ' 更新: ' . $row['last_message_timestamp'] . '</div></div>';
                     if ($mobile === true) {
                         echo '<br>';
                     }
