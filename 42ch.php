@@ -236,7 +236,7 @@ Cookieでログイン状態を保持できるようになりました<br> -->
                     echo '<div class="threads-list"><a href="thread.php?thread_id=' . h($row['thread_id']) . '">' . h($row['thread_title']) . '</a></br>';
                     // echo 'レス数:<div class="thread_info">' . $row['count_message'] . '</div> 更新: <div class="thread_info">' . $row['last_message_timestamp'] . '</div></div>';
                     echo '<span class="tik">レス数：</span><span class="thread_info">' . $row['count_message'] . '</span> ';
-                    echo '<span class="tik">更新：</span><span class="thread_info">' . $row['last_message_timestamp'] . '</span>';
+                    echo '<span class="tik">更新：</span><span class="thread_info">' . $row['last_message_timestamp'] . '</span></div>';
 
                     if ($mobile === true) {
                         echo '<br>';
