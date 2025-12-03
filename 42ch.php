@@ -72,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $dsn = 'mysql:dbname=' . DB_DBNAME . ';host=' . DB_SERVERNAME;
     $pdo = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
-    $sql = $pdo->prepare("INSERT into threads (thread_title, thread_id, `timestamp`) values (:thread_title, :thread_id, now())");
+    // $sql = $pdo->prepare("INSERT into threads (thread_title, thread_id, `timestamp`) values (:thread_title, :thread_id, now())");
+    $sql = $pdo->prepare("INSERT into threads (thread_title, thread_id, `timestamp`,board_id) values (:thread_title, :thread_id, now(), 0)");
     $sql->bindParam(':thread_title', $thread_title, PDO::PARAM_STR);
     $sql->bindParam(':thread_id', $max_thread_id, PDO::PARAM_INT);
     $res = $sql->execute();
@@ -119,8 +120,10 @@ function h($str)
         スレッド一覧が降順になりました<br>
         画像をハイパーリンク化！<br>
         画像をフルスクリーンで閲覧できるようになりました<br> -->
-        Update!2025/08/23 v4.0.0<br>
-        板機能が実装されました<br>
+        <!-- Update!2025/08/23 v4.0.0<br>
+        板機能が実装されました<br> -->
+        Update!2025/08/23 v4.0.1<br>
+        ホームでスレッドが作成できないバグを修正しました<br>
     </h4>
 
     <div class="container">
