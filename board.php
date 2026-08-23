@@ -187,8 +187,6 @@ function h($str)
 
     <!-- <p><a href="../42ch_v1.1 Unsecured/42ch.php">旧42ch v1.1 XSS未対策Ver<a></p> -->
 
-    <a href="https://yotsunoserver.yotsu.cc/ajtest/ajax.php">ズミchat<a></p>
-
 
             <h3>スレッド一覧</h3>
 

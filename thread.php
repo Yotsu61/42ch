@@ -1,5 +1,5 @@
 <?php
-require_once (dirname(__FILE__) . "/secret.php");
+require_once(dirname(__FILE__) . "/secret.php");
 
 error_reporting(E_ALL);
 
@@ -92,30 +92,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    var_dump($_FILES);
+    // var_dump($_FILES);
 
     // ファイルが正常にアップロードされたか確認
+    //サイバーセキュリティ対策で追加
     if (isset($_FILES['image_post']) && $_FILES['image_post']['error'] == UPLOAD_ERR_OK) {
+
+        $allowedImages = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+        // 拡張子確認
+        $ext = strtolower(pathinfo($_FILES['image_post']['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $allowedImages)) {
+            http_response_code(400);
+            exit('許可されていない画像形式です');
+        }
+
+        // MIMEタイプ確認
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $_FILES['image_post']['tmp_name']);
+        finfo_close($finfo);
+
+        if (strpos($mimeType, 'image/') !== 0) {
+            http_response_code(400);
+            exit('画像ファイルではありません');
+        }
+
         $image_tmp_name = $_FILES['image_post']['tmp_name'];
-        $image_name = $timestamp_usec . "_" . $_FILES['image_post']['name'];
 
-        // アップロードされたファイルを指定の場所に移動
-        move_uploaded_file($image_tmp_name, IMAGE_FILE_PATH . $image_name);
+        // ファイル名からパスを除去
+        $image_name = $timestamp_usec . "_" . basename($_FILES['image_post']['name']);
 
-        // これで、$image_nameを必要に応じてデータベースクエリで使用したり保存できます。
+        move_uploaded_file(
+            $image_tmp_name,
+            IMAGE_FILE_PATH . $image_name
+        );
     }
 
     // 動画が正常にアップロードされたか確認
+    // サイバーセキュリティ対策
     if (isset($_FILES['video_post']) && $_FILES['video_post']['error'] == UPLOAD_ERR_OK) {
+
+        $allowedVideos = ['mp4', 'webm', 'mov'];
+
+        $ext = strtolower(pathinfo($_FILES['video_post']['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $allowedVideos)) {
+            http_response_code(400);
+            exit("許可されていない動画形式です");
+        }
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $_FILES['video_post']['tmp_name']);
+        finfo_close($finfo);
+
+        if (strpos($mimeType, 'video/') !== 0) {
+            http_response_code(400);
+            exit("動画ではありません");
+        }
+
         $video_tmp_name = $_FILES['video_post']['tmp_name'];
-        $video_name = $timestamp_usec . "_" . $_FILES['video_post']['name'];
 
-        // アップロードされた動画ファイルを指定の場所に移動
-        move_uploaded_file($video_tmp_name, VIDEO_FILE_PATH . $video_name);
+        $video_name = $timestamp_usec . "_" . basename($_FILES['video_post']['name']);
 
-        // これで、$video_nameを必要に応じてデータベースクエリで使用したり保存できます。
+        move_uploaded_file(
+            $video_tmp_name,
+            VIDEO_FILE_PATH . $video_name
+        );
     }
-
 
     # connect mysql PDO
     $dsn = 'mysql:dbname=' . DB_DBNAME . ';host=' . DB_SERVERNAME;
@@ -298,7 +342,7 @@ if ($result->num_rows > 0) {
             //アンカー遷移用
             // echo '<div id="anker'. $row['message_id'] . '">リンク先</div>';
             // echo '<a name="' . $row['message_id'] . '">リンク先</a>';
-
+    
             $user_id_hash;
             if (!($row['user_id'] == 0)) {
                 $user_id_hash = "userID: <span class='userID'>" . substr(md5($row['user_id']), 0, 7) . "</span>";
@@ -355,7 +399,7 @@ if ($result->num_rows > 0) {
     <link rel=”icon” href=“favicon.ico”>
     <script src="path/to/script.js"></script>
 
-    <?php include ( dirname(__FILE__) . '/GoogleAnalitycs.php' ); ?>
+    <?php include(dirname(__FILE__) . '/GoogleAnalitycs.php'); ?>
 </head>
 
 <header>
@@ -461,8 +505,12 @@ if ($result->num_rows > 0) {
                 window.location.reload(); // ページをリロード
             } else {
                 console.error('ファイルのアップロード中にエラーが発生しました。');
-                window.location.reload(); // エラーが発生した場合もページをリロード
+                alert(xhr.responseText);
             }
+        };
+
+        xhr.onerror = function () {
+            alert("サーバーとの通信に失敗しました。");
         };
 
         // フォームを送信

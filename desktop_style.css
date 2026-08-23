@@ -1,7 +1,144 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background-color: #fffacd;
     /* color: black; */
 }
+
+
+/* =========================================
+   42ch.php サイドバー追加部分
+   ========================================= */
+
+.container {
+    display: flex;
+    align-items: flex-start;
+
+    width: 100%;
+    min-height: 100vh;
+
+    margin: 0;
+    padding: 0;
+}
+
+
+/* 左サイドバー */
+.sidebar {
+    box-sizing: border-box;
+
+    width: 190px;
+    min-width: 190px;
+    min-height: 100vh;
+
+    margin: 0;
+    padding: 12px 10px;
+
+    background-color: #eeeeee;
+    border-right: 1px solid #999999;
+
+    position: sticky;
+    top: 0;
+
+    align-self: flex-start;
+}
+
+
+/* サイドバー上部タイトル */
+.sidebar-title {
+    font-size: 20px;
+    font-weight: bold;
+
+    text-align: center;
+
+    margin-bottom: 12px;
+}
+
+
+/* ユーザー情報 */
+.sidebar-user {
+    font-size: 12px;
+
+    margin-bottom: 12px;
+
+    line-height: 1.5;
+
+    word-break: break-all;
+}
+
+
+/* 「板一覧」 */
+.sidebar-section-title {
+    font-weight: bold;
+
+    margin-top: 10px;
+    margin-bottom: 7px;
+}
+
+
+/* 板 */
+.sidebar-board {
+    margin: 4px 0;
+
+    line-height: 1.5;
+}
+
+
+/* サイドバーリンク */
+.sidebar-board a,
+.sidebar-menu a {
+    display: block;
+
+    padding: 2px;
+
+    color: black;
+
+    text-decoration: underline;
+}
+
+
+.sidebar-board a:hover,
+.sidebar-menu a:hover {
+    background-color: #dddddd;
+}
+
+
+/* 区切り線 */
+.sidebar hr {
+    border: 0;
+
+    border-top: 1px solid #999999;
+
+    margin: 12px 0;
+}
+
+
+/* バージョン */
+.sidebar-version {
+    font-size: 11px;
+
+    color: #555555;
+
+    margin-top: 15px;
+}
+
+
+/* メイン側
+   サイドバーの右に置くだけ */
+.main-content {
+    flex: 1;
+    min-width: 0;
+
+    padding-left: 20px;
+}
+
+
+/* =========================================
+   ここから元のCSS
+   ========================================= */
 
 
 /* 42ch.php */
@@ -20,51 +157,65 @@ body {
     overflow: scroll;
 }
 
+
 a {
     color: black;
 }
+
+
 .thread_info {
     font-size: 14px;
-    color:rgb(33, 136, 7);
+    color: rgb(33, 136, 7);
     margin-bottom: 6px;
 }
 
-.tik{
+
+.tik {
     font-size: 14px;
-    color:rgb(65, 65, 65);
+    color: rgb(65, 65, 65);
     margin-bottom: 6px;
 }
+
 
 /* メッセージ　ユーザID,タイムスタンプ */
 .message_info {
     font-size: 14px;
-    color:rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
     margin-bottom: 6px;
-    /*横に並べる*/
-    display: inline-block; 
+
+    /* 横に並べる */
+    display: inline-block;
+
     /* 余白左 */
     margin-left: 10px;
-
 }
 
-.message{
+
+.message {
     margin-left: 10px;
 }
 
-.userID{
-    color:rgb(0, 0, 204);
-}
-.anonymasID{
-    color:rgb(219, 145, 6);
+
+.userID {
+    color: rgb(0, 0, 204);
 }
 
-.threads-list{
+
+.anonymasID {
+    color: rgb(219, 145, 6);
+}
+
+
+.threads-list {
     /* display:flex; */
 }
 
 
 
-/* thread.php */
+/* =========================================
+   thread.php
+   ========================================= */
+
 .message-box {
     background-color: #c0c0c0;
     border: 1px solid #ccc;
@@ -73,39 +224,48 @@ a {
 
     border: 1px solid black;
 }
-.message{
+
+
+.message {
     margin-left: 12px;
 }
+
 
 .username {
     color: green;
 }
 
+
 .separator {
     color: black;
 }
+
 
 .timestamp {
     color: black;
 }
 
-/* header {
+
+/*
+header {
     padding: 30px;
     background: #333;
     color: #FFF;
-    } */
+}
+*/
 
 
-    c[href^="#"] {
-        text-decoration: none;
-      }
-      
-      c[href^="#"]:hover {
-        text-decoration: underline;
-      }
-      
-      /* スクロールアニメーション */
-      body {
-        scroll-behavior: smooth;
-      }
-      
+a[href^="#"] {
+    text-decoration: none;
+}
+
+
+a[href^="#"]:hover {
+    text-decoration: underline;
+}
+
+
+/* スクロールアニメーション */
+body {
+    scroll-behavior: smooth;
+}

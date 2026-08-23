@@ -1,110 +1,450 @@
+/* =========================================
+   基本
+   ========================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #fffacd;
-    color: black;
     margin: 0;
     padding: 0;
-    max-width: 350px;
-    margin: 0 auto;
-}
 
-/* 42ch.php */
-.container {
-    width: 90%;
-    margin: 0 auto;
-}
+    background-color: #fffacd;
+    color: #000000;
 
-.thread-box {
-    /* background-color: #c0c0c0;
-    border: 1px solid #ccc;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid black;
-    left: 10px;
-    margin: 0 auto; */
-    background-color: #c0c0c0;
-    border: 1px solid #db6618;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid black;
-}
+    font-family:
+        "MS PGothic",
+        "ＭＳ Ｐゴシック",
+        Arial,
+        sans-serif;
 
-.thread_info {
     font-size: 14px;
-    color:rgb(33, 136, 7);
-    margin-bottom: 6px;
 }
 
-.tik{
-    font-size: 14px;
-    color:rgb(65, 65, 65);
-    margin-bottom: 6px;
-}
+
+/* =========================================
+   リンク
+   ========================================= */
 
 a {
-    color: black;
-    text-decoration: none;
+    color: #0000ee;
+    text-decoration: underline;
 }
 
-h2, h3, h5 {
-
+a:visited {
+    color: #551a8b;
 }
 
-form {
-    margin-bottom: 20px;
-    left: 10px;
-    margin: 0 auto;
+a:hover {
+    color: #ff0000;
 }
 
-textarea {
+
+/* =========================================
+   42ch.php 全体
+   ========================================= */
+
+.container {
+    display: block;
+
     width: 100%;
-    height: 100px;
-    padding: 10px;
+
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================
+   サイドバー
+   スマホでは上部メニュー
+   ========================================= */
+
+.sidebar {
     box-sizing: border-box;
-    margin-bottom: 10px;
-    left: 10px;
-    margin: 0 auto;
-}
 
-input[type="submit"] {
     width: 100%;
+    min-width: 0;
+    min-height: 0;
+
     padding: 10px;
+
+    background-color: #eeeeee;
+
+    border-right: none;
+    border-bottom: 1px solid #888888;
+
+    position: static;
+}
+
+
+/* 42ch */
+
+.sidebar-title {
+    margin-bottom: 8px;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    text-align: left;
+}
+
+
+/* ユーザー */
+
+.sidebar-user {
+    margin-bottom: 8px;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* 板一覧 */
+
+.sidebar-section-title {
+    margin-top: 8px;
+    margin-bottom: 6px;
+
+    font-weight: bold;
+}
+
+
+/* 板を横並び気味に表示 */
+
+.sidebar-board {
+    display: inline-block;
+
+    margin-right: 10px;
+    margin-bottom: 6px;
+}
+
+.sidebar-board a {
+    display: inline-block;
+
+    padding: 2px;
+}
+
+
+/* ログイン系 */
+
+.sidebar-menu a {
+    display: inline-block;
+
+    margin-right: 12px;
+    margin-bottom: 4px;
+
+    padding: 2px;
+}
+
+
+/* 区切り */
+
+.sidebar hr {
+    margin: 9px 0;
+
     border: none;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-    left: 10px;
-    margin: 0 auto;
-}
-
-@media only screen and (min-width: 600px) {
-    .container {
-        width: 60%;
-    }
+    border-top: 1px solid #999999;
 }
 
 
-/* thread.php */
-.message-box {
+/* バージョン */
+
+.sidebar-version {
+    margin-top: 8px;
+
+    font-size: 10px;
+
+    color: #555555;
+}
+
+
+/* =========================================
+   メインコンテンツ
+   ========================================= */
+
+.main-content {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    padding: 12px;
+}
+
+
+/* タイトル */
+
+.main-title {
+    margin-top: 0;
+
+    font-size: 25px;
+}
+
+
+/* 更新情報 */
+
+.update-text {
+    margin-bottom: 18px;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   スレッド一覧
+   ========================================= */
+
+.thread-box {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    height: 450px;
+
+    margin: 8px 0 15px 0;
+    padding: 8px;
+
     background-color: #c0c0c0;
-    border: 1px solid #ccc;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid black;
-    left: 10px;
-    margin: 0 auto;
+
+    border: 1px solid #000000;
+
+    overflow-y: auto;
+    overflow-x: hidden;
 }
+
+
+/* スレッド */
+
+.threads-list {
+    padding: 7px 3px;
+
+    border-bottom: 1px dotted #777777;
+
+    line-height: 1.5;
+}
+
+.threads-list:last-child {
+    border-bottom: none;
+}
+
+
+/* スレッドタイトル */
+
+.threads-list > a {
+    font-size: 15px;
+}
+
+
+/* スレッド情報 */
+
+.thread_info {
+    font-size: 12px;
+
+    color: rgb(33, 136, 7);
+}
+
+.tik {
+    font-size: 12px;
+
+    color: rgb(65, 65, 65);
+}
+
+
+/* =========================================
+   スレッド作成
+   ========================================= */
+
+.thread-create-box {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    margin-top: 15px;
+    padding: 10px;
+
+    background-color: #eeeeee;
+
+    border: 1px solid #333333;
+}
+
+.thread-create-box h4 {
+    margin-top: 0;
+}
+
+
+/* タイトル入力 */
+
+.thread-create-box input[type="text"] {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 34px;
+
+    padding: 5px;
+
+    margin-bottom: 8px;
+}
+
+
+/* 作成ボタン */
+
+.thread-create-box input[type="submit"] {
+    width: 100%;
+
+    padding: 8px;
+}
+
+
+/* =========================================
+   thread.php
+   ========================================= */
+
+.message-box {
+    box-sizing: border-box;
+
+    width: calc(100% - 16px);
+
+    margin: 8px;
+    padding: 8px;
+
+    background-color: #c0c0c0;
+
+    border: 1px solid #000000;
+
+    overflow-wrap: break-word;
+}
+
+
+/* 名前 */
 
 .username {
     color: green;
 }
 
-.userID{
-    color:rgb(0, 0, 204);
+
+/* ID */
+
+.userID {
+    color: rgb(0, 0, 204);
 }
-.anonymasID{
-    color:rgb(219, 145, 6);
+
+.anonymasID {
+    color: rgb(219, 145, 6);
 }
+
+
+/* 投稿情報 */
+
+.message_info {
+    display: inline;
+
+    margin-left: 5px;
+
+    font-size: 11px;
+
+    color: #000000;
+}
+
+
+/* 本文 */
+
+.message {
+    margin-left: 5px;
+
+    line-height: 1.6;
+
+    word-break: break-word;
+}
+
+
+/* =========================================
+   投稿フォーム
+   ========================================= */
+
+form {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    margin: 0;
+}
+
+
+/* textarea */
+
+textarea {
+    box-sizing: border-box;
+
+    width: 100% !important;
+    height: 120px;
+
+    padding: 8px;
+
+    margin-bottom: 8px;
+}
+
+
+/* input */
+
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+    box-sizing: border-box;
+
+    max-width: 100%;
+}
+
+
+/* submit */
+
+input[type="submit"] {
+    box-sizing: border-box;
+
+    min-height: 34px;
+
+    cursor: pointer;
+}
+
+
+/* thread.phpだけの投稿ボタンは広く */
+
+body > form input[type="submit"] {
+    width: 100%;
+}
+
+
+/* =========================================
+   画像・動画
+   ========================================= */
+
+.message-box img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+.message-box video {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+
+/* =========================================
+   プログレスバー
+   ========================================= */
+
+progress {
+    width: 100%;
+
+    margin-top: 8px;
+    margin-bottom: 5px;
+}
+
+
+/* =========================================
+   その他
+   ========================================= */
 
 .separator {
     color: black;
@@ -112,4 +452,15 @@ input[type="submit"] {
 
 .timestamp {
     color: black;
+}
+
+
+/* アンカー */
+
+a[href^="#"] {
+    text-decoration: none;
+}
+
+a[href^="#"]:hover {
+    text-decoration: underline;
 }
