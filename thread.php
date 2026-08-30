@@ -29,8 +29,9 @@ if (isset($_SESSION['user_id'])) {
     $sign_in_button = "";
     $logout_button = '<button onclick="location.href=\'./logout.php\'">ログアウト</button>';
 
-
-
+//=============  
+//ユーザ名表示
+//=============
     $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
     // 接続確認
     if ($conn->connect_error) {
@@ -44,7 +45,7 @@ if (isset($_SESSION['user_id'])) {
         while ($row = $result->fetch_assoc()) {
             $user_name = $row['user_name'];
             // $user_id = $row['user_id'];
-            echo "<br>ユーザ:" . $row['user_name'] . "<br>";
+            echo "<br>ユーザ:" . h($row['user_name']) . "<br>";
         }
     }
 
@@ -350,7 +351,7 @@ if ($result->num_rows > 0) {
                 $user_id_hash = "匿名ユーザ ID: <span class='anonymasID'>" . substr(md5($row['IP_Address']), 0, 7) . "</span>";
             }
             echo "" . $row['message_id'] . " : " . "<span class='username'>" . h($row['user_name']) . "</span>" . "<div class='message_info'>" . $user_id_hash . "　" . $row['write_timestamp'] . "</div><br>";
-            echo "<div class='message'>" . makeClickableLinks(makeClickableAnker(h($row['message']))) . "</div><br>";
+            echo "<div class='message'>" . makeClickableLinks(makeClickableAnker(nl2br(h($row['message'])))) . "</div><br>";
             if ($row['image_path'] !== null) {
                 $imagePath = IMAGE_FILE_PATH . $row['image_path'];
                 // echo "<img src='$imagePath' alt='Uploaded Image' style='max-width: 100%; height: 200px;'><br>";
