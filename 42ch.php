@@ -278,8 +278,13 @@ function h($str)
                 FROM threads t
                 LEFT JOIN messages m
                     ON t.thread_id = m.thread_id
+                LEFT JOIN boards b
+                    ON t.board_id = b.board_id
+                WHERE b.password IS NULL
+                OR b.password = ''
+                OR t.board_id = 0
                 GROUP BY t.thread_id
-                ORDER BY thread_id DESC";
+                ORDER BY t.thread_id DESC";
 
             $result = $conn->query($sql);
 
