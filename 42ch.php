@@ -242,10 +242,11 @@ function h($str)
 
         <div class="update-text">
             <strong>
-                Update!2026/08/23 v4.1.0
+                Release Notes
             </strong>
             <br>
-            一部デザインを刷新しました
+            Update!2026/08/30 v4.1.1<br>
+            改行ができないバグとXSS脆弱性の修正
         </div>
 
         <h3>スレッド一覧</h3>
