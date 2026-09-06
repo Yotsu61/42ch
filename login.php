@@ -56,7 +56,7 @@ if (isset ($_POST['user_name_post']) && isset ($_POST['password_post'])) {
 
       // header("Location: 42ch.php");
       echo "ログインに成功しました";
-      echo '<script>setTimeout(function() { window.location.href = "index.php"; }, 600);</script>';
+      echo '<script>setTimeout(function() { window.location.href = "42ch.php"; }, 600);</script>';
 
       exit;
     } else {

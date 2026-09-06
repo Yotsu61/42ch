@@ -245,8 +245,10 @@ function h($str)
                 Release Notes
             </strong>
             <br>
-            Update!2026/08/30 v4.1.1<br>
-            改行ができないバグとXSS脆弱性の修正
+            <!-- Update!2026/08/30 v4.1.1<br>
+            改行ができないバグとXSS脆弱性の修正 -->
+            Update!2026/09/06 v4.1.2
+            ログイン時に Not Found となる不具合を修正
         </div>
 
         <h3>スレッド一覧</h3>
