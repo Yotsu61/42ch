@@ -105,7 +105,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['thread_title_post'])) 
 
 
 
-
     $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
     // 接続確認
     if ($conn->connect_error) {
@@ -167,7 +166,7 @@ function h($str)
 
     <title>42ch</title <?php include(dirname(__FILE__) . '/GoogleAnalitycs.php');
     echo $board_idg;
-    ?> </head>
+    ?> *</head*>
 
 
     <script>
@@ -182,13 +181,17 @@ function h($str)
 
 
 
-
     <h2>42ch</h2>
 
     <!-- <p><a href="../42ch_v1.1 Unsecured/42ch.php">旧42ch v1.1 XSS未対策Ver<a></p> -->
 
 
             <h3>スレッド一覧</h3>
+
+            <div style="text-align: right; margin-bottom: 8px;">
+                <button onclick="location.href='board.php?board_id=<?php echo h($board_idg); ?>&sort=new'">作成日順</button>
+                <button onclick="location.href='board.php?board_id=<?php echo h($board_idg); ?>&sort=latest'">レス最新順</button>
+            </div>
 
             <div class="thread-box">
                 <?php
@@ -245,6 +248,14 @@ function h($str)
 
                 $board_idg = $_GET['board_id'];
 
+                $sort = isset($_GET['sort']) ? $_GET['sort'] : 'new';
+
+                if ($sort === 'latest') {
+                    $order_by = "last_message_timestamp DESC, t.thread_id DESC";
+                } else {
+                    $order_by = "t.thread_id DESC";
+                }
+
                 // SELECTクエリを実行
                 $sql = "SELECT t.thread_title, t.thread_id, 
                     COUNT(m.message_id) AS count_message, 
@@ -253,7 +264,7 @@ function h($str)
                     LEFT JOIN messages m ON t.thread_id = m.thread_id
                     WHERE t.board_id = $board_idg
                     GROUP BY t.thread_id
-                    ORDER BY t.thread_id DESC";
+                    ORDER BY $order_by";
 
 
 
@@ -266,7 +277,6 @@ function h($str)
                     // データがある場合
                     while ($row = $result->fetch_assoc()) {
                         // echo "スレッド: " . $row["title"]. " " . $row["id"]. "<br>";
-                
                         echo '<div class="threads-list"><a href="thread.php?thread_id=' . h($row['thread_id']) . '">' . h($row['thread_title']) . '</a></br>';
                         // echo 'レス数:<div class="thread_info">' . $row['count_message'] . '</div> 更新: <div class="thread_info">' . $row['last_message_timestamp'] . '</div></div>';
                         echo '<span class="tik">レス数：</span><span class="thread_info">' . $row['count_message'] . '</span> ';
@@ -329,7 +339,6 @@ function h($str)
 </body>
 
 </html>
-
 
 
 

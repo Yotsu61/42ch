@@ -247,11 +247,19 @@ function h($str)
             <br>
             <!-- Update!2026/08/30 v4.1.1<br>
             改行ができないバグとXSS脆弱性の修正 -->
-            Update!2026/09/06 v4.1.2
-            ログイン時に Not Found となる不具合を修正
+            <!-- Update!2026/09/06 v4.1.2<br>
+            ログイン時に Not Found となる不具合を修正 -->
+
+            Update!2026/09/２6 v4.1.3<br>
+            スレッドの表示順を切り替えるようになりました。
         </div>
 
         <h3>スレッド一覧</h3>
+
+        <div style="text-align: right; margin-bottom: 8px;">
+            <button onclick="location.href='42ch.php?sort=new'">新しいスレッド順</button>
+            <button onclick="location.href='42ch.php?sort=latest'">レス更新日時順</button>
+        </div>
 
         <div class="thread-box">
 
@@ -273,9 +281,18 @@ function h($str)
                 );
             }
 
+            $sort = isset($_GET['sort']) ? $_GET['sort'] : 'new';
+
+            if ($sort === 'latest') {
+                $order_by = "last_message_timestamp DESC, t.thread_id DESC";
+            } else {
+                $order_by = "t.thread_id DESC";
+            }
+
             $sql = "SELECT
                 t.thread_title,
                 t.thread_id,
+                b.board_name,
                 COUNT(m.message_id) AS count_message,
                 MAX(m.write_timestamp) AS last_message_timestamp
                 FROM threads t
@@ -287,42 +304,50 @@ function h($str)
                 OR b.password = ''
                 OR t.board_id = 0
                 GROUP BY t.thread_id
-                ORDER BY t.thread_id DESC";
+                ORDER BY $order_by";
 
             $result = $conn->query($sql);
 
-            if ($result->num_rows > 0) {
+           if ($result->num_rows > 0) {
 
-                while ($row = $result->fetch_assoc()) {
+    $previous_board_name = null;
 
-                    echo '<div class="threads-list">';
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="threads-list">';
+            $board_name = $row['board_name'] ?? '';
+            echo '<div style="display: flex; align-items: flex-start;">';
+            echo '<div style="width: 80px; flex-shrink: 0; color: #ff4000;">';
 
-                    echo '<a href="thread.php?thread_id='
-                        . h($row['thread_id'])
-                        . '">'
-                        . h($row['thread_title'])
-                        . '</a></br>';
+            if ($board_name !== '' && $board_name !== $previous_board_name) {
+                echo h($board_name);
+            }
 
-                    echo '<span class="tik">レス数：</span>';
+            echo '</div>';
+            echo '<div>';
+            echo '<a href="thread.php?thread_id='
+                . h($row['thread_id'])
+                . '">'
+                . h($row['thread_title'])
+                . '</a></br>';
+            echo '<span class="tik">レス数：</span>';
+            echo '<span class="thread_info">'
+               . $row['count_message']
+               . '</span> ';
+            echo '<span class="tik">更新：</span>';
+            echo '<span class="thread_info">'
+               . $row['last_message_timestamp']
+               . '</span>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
 
-                    echo '<span class="thread_info">'
-                        . $row['count_message']
-                        . '</span> ';
-
-                    echo '<span class="tik">更新：</span>';
-
-                    echo '<span class="thread_info">'
-                        . $row['last_message_timestamp']
-                        . '</span>';
-
-                    echo '</div>';
-
-                    if ($mobile === true) {
-                        echo '<br>';
-                    }
-                }
-
-            } else {
+            $previous_board_name = $board_name;
+        
+            if ($mobile === true) {
+             echo '<br>';
+         }
+      }
+    } else {
                 echo "データがありません";
             }
 
